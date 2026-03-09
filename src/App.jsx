@@ -30,10 +30,10 @@ const App = () => {
       document.documentElement.lang = i18n.language;
     }
   }, [i18n.language]);
-  
+
   // Enable real-time storage sync across tabs
   useStorageSync();
-  
+
   // Dynamically update favicon from API
   useFavicon();
 
@@ -52,13 +52,39 @@ const App = () => {
           position="top-right"
           toastOptions={{
             style: {
-              borderRadius: "8px",
-              background: "#222",
-              color: "#eee",
-              fontSize: "14px",
-              padding: "16px",
-              border: "1px solid #333",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+              borderRadius: "12px",
+              background: "#ffffff",
+              color: "#1a1a2e",
+              fontSize: "13.5px",
+              fontWeight: "500",
+              padding: "14px 18px",
+              border: "1px solid #e8e8f0",
+              boxShadow:
+                "0 4px 24px rgba(99, 76, 211, 0.08), 0 1px 4px rgba(0,0,0,0.06)",
+            },
+            success: {
+              iconTheme: {
+                primary: "#6c4de6",
+                secondary: "#ffffff",
+              },
+              style: {
+                borderLeft: "4px solid #6c4de6",
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: "#ef4444",
+                secondary: "#ffffff",
+              },
+              style: {
+                borderLeft: "4px solid #ef4444",
+              },
+            },
+            loading: {
+              iconTheme: {
+                primary: "#6c4de6",
+                secondary: "#f3f0ff",
+              },
             },
           }}
         />

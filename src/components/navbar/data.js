@@ -55,14 +55,14 @@ import { FeaturePermission } from "@/constants/feature-permission";
 // Navigation organized by sections and workflow
 // title: used for iconMap lookup; tKey: translation key for i18n
 export const navSections = [
-  {
-    id: 1.5,
-    title: "Domain Find",
-    tKey: "Domain Find",
-    link: "/domain-finder",
-    permission: FeaturePermission.CUSTOM_DOMAIN,
-    icon: Globe,
-  },
+  // {
+  //   id: 1.5,
+  //   title: "Domain Find",
+  //   tKey: "Domain Find",
+  //   link: "/domain-finder",
+  //   permission: FeaturePermission.CUSTOM_DOMAIN,
+  //   icon: Globe,
+  // },
   {
     id: "main",
     title: "General",

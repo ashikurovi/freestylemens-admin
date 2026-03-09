@@ -33,6 +33,8 @@ const DashboardPage = () => {
     return t("dashboard.goodNight");
   };
 
+  const companyName = authUser?.companyName || authUser?.company?.name || authUser?.storeName || authUser?.name || "SquadCart";
+
   const { data: dashboardData, isLoading } = useGetDashboardQuery(
     { companyId: authUser?.companyId },
     { skip: !authUser?.companyId },
@@ -125,6 +127,7 @@ const DashboardPage = () => {
       <DashboardHeader
         currentDateTime={currentDateTime}
         getGreeting={getGreeting}
+        companyName={companyName}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

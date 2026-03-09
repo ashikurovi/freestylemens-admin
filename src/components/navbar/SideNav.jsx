@@ -364,6 +364,14 @@ export default function SideNav({ isMobileMenuOpen, setIsMobileMenuOpen }) {
   // Get filtered navigation based on permissions
   const nav = useMemo(() => getFilteredNav(user), [user]);
 
+  const companyName =
+    user?.companyName ||
+    user?.company?.name ||
+    user?.storeName ||
+    user?.name ||
+    "SquadCart";
+  const companyLogo = user?.companyLogo || user?.company?.logo || user?.logo;
+
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -389,36 +397,28 @@ export default function SideNav({ isMobileMenuOpen, setIsMobileMenuOpen }) {
       >
         {/* Brand Header */}
         <div
-          className={`px-6 pt-8 pb-2 flex items-center gap-3 ${isCollapsed ? "justify-center px-2" : ""}`}
+          className={`px-6 py-6 flex items-center gap-4 transition-all duration-300 ${isCollapsed ? "justify-center px-2" : ""}`}
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20 shrink-0">
-            {user?.companyLogo ? (
-              <img
-                src={user.companyLogo}
-                className="w-full h-full object-cover rounded-xl"
-                alt="Logo"
-              />
-            ) : (
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
+          <div className="relative group cursor-pointer shrink-0">
+            <div className="w-11 h-11 rounded-2xl bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center shadow-lg shadow-gray-200/50 dark:shadow-none overflow-hidden transition-transform duration-300 group-hover:scale-105">
+              {companyLogo ? (
+                <img
+                  src={companyLogo}
+                  className="w-full h-full object-cover"
+                  alt="Logo"
                 />
-              </svg>
-            )}
+              ) : (
+                <div className="bg-gradient-to-br from-violet-600 to-indigo-600 w-full h-full flex items-center justify-center text-white font-bold text-xl">
+                  {companyName?.charAt(0)}
+                </div>
+              )}
+            </div>
           </div>
           {!isCollapsed && (
-            <div className="flex flex-col">
-              <div className="text-xl font-bold text-black">
-             {user?.companyName}
-            </div>
+            <div className="flex flex-col animate-in fade-in slide-in-from-left-4 duration-500">
+              <h1 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-200 dark:to-white tracking-tight">
+                {companyName}
+              </h1>
             </div>
           )}
         </div>

@@ -933,7 +933,7 @@ export const routes = createBrowserRouter([
   },
 
   // { path: "/superadmin/login", element: <SuperAdminLoginPage /> },
-  { path: "/login", element: <AdminLoginPage /> },
+  { path: "/login", element: <LoginPage /> },
   { path: "/reseller-inactive", element: <ResellerInactiveInfoPage /> },
   // { path: "/sign-in", element: <LoginPage /> },
   // { path: "/login", element: <UnifiedLoginPage /> },
