@@ -26,6 +26,7 @@ import DeleteModal from "@/components/modals/DeleteModal";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { Tag } from "lucide-react";
 
 const PromocodePage = () => {
   const { t } = useTranslation();
@@ -160,8 +161,8 @@ const PromocodePage = () => {
                 {valueLabel}
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400">
-                {t("promocodes.minOrderLabel")}{" "}
-                ${Number(p?.minOrderAmount || 0).toFixed(2)}
+                {t("promocodes.minOrderLabel")} $
+                {Number(p?.minOrderAmount || 0).toFixed(2)}
               </span>
             </div>
           ),
@@ -268,20 +269,27 @@ const PromocodePage = () => {
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-[#111318] p-4 md:p-6 space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
-            {t("promocodes.title")}
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {t("promocodes.manageDesc")}
-          </p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shrink-0">
+            <Tag className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+          </div>
+          <div>
+            <h1 className=" text-xl md:text-2xl font-bold leading-tight text-gray-900 dark:text-white">
+              {t("promocodes.title")}
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
+              {t("promocodes.manageDesc")}
+            </p>
+          </div>
         </div>
+
         <Button
+          size="sm"
           onClick={() => navigate("/promocodes/create")}
-          className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/20 rounded-xl px-6"
+          className="h-8 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
         >
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-3.5 h-3.5" />
           {t("promocodes.addPromocode")}
         </Button>
       </div>
