@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Filter } from "lucide-react";
+import { Filter, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // -----------------------------------------------------------------------------
@@ -72,14 +72,21 @@ const LanguageSwitcher = ({
 const TitleBlock = () => {
   const { t } = useTranslation();
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3 tracking-tight">
-        {t("aiLiveFeed.latestActivity")}
-        <LiveBadge />
-      </h1>
-      <p className="text-gray-500 mt-2 text-lg max-w-2xl">
-        {t("aiLiveFeed.subtitleDescription")}
-      </p>
+    <div className="flex items-start gap-4">
+      <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 grid place-items-center">
+        <Activity className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+      </div>
+      <div>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
+            {t("aiLiveFeed.latestActivity")}
+          </h1>
+          <LiveBadge />
+        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium mt-1 max-w-2xl">
+          {t("aiLiveFeed.subtitle")}
+        </p>
+      </div>
     </div>
   );
 };
