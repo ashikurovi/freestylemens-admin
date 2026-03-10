@@ -429,15 +429,32 @@ const FlashSellPage = () => {
   return (
     <div className="p-6 lg:p-0 bg-[#f8f9fa] dark:bg-[#0b0f14] min-h-screen font-sans space-y-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-2">
-        <div className="space-y-2">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-white">
-            Flash Sell{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">
-              Management
-            </span>
+      <div className="flex items-start gap-3 mb-6">
+        {/* Icon */}
+        <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5 text-indigo-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"
+            />
+          </svg>
+        </div>
+
+        {/* Title + Description */}
+        <div>
+          <h1 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">
+            Flash Sell Management
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 font-medium max-w-lg text-base">
+
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {t("flashSell.description") ||
               "Create and manage time-limited flash sales for your products."}
           </p>

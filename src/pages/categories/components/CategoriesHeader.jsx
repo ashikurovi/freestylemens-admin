@@ -1,40 +1,41 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Plus } from "lucide-react";
+import { Plus, Tag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 const CategoriesHeader = ({ t, onAdd }) => {
   const { t: translate } = useTranslation();
   const translation = t || translate;
-  
+
   return (
-    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-2">
-      <div className="space-y-2">
-        <h1 className="text-4xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-white">
-          {translation("categories.title")}
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 font-medium max-w-lg text-base">
-          {translation("categories.subtitle")}
-        </p>
+    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-2">
+      {/* ── Title block ── */}
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shrink-0">
+          <Tag className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+        </div>
+        <div>
+          <h1 className=" text-xl md:text-2xl font-bold leading-tight text-gray-900 dark:text-white">
+            {translation("categories.title")}
+          </h1>
+          <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
+            {translation("categories.subtitle")}
+          </p>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <Button
-          className="h-14 px-8 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold flex items-center gap-3 shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all duration-300 transform hover:-translate-y-1"
-          onClick={onAdd}
-        >
-          <div className="bg-white/20 p-1.5 rounded-lg">
-            <Plus className="w-5 h-5" />
-          </div>
-          <span className="text-lg">
-            {translation("common.add")} {translation("nav.categories")}
-          </span>
-        </Button>
-      </div>
+      {/* ── Action button ── */}
+      <Button
+        size="sm"
+        className="h-8 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
+        onClick={onAdd}
+      >
+        <Plus className="w-3.5 h-3.5" />
+        {translation("common.add")} {translation("nav.categories")}
+      </Button>
     </div>
   );
 };
 
 export default CategoriesHeader;
-

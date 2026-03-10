@@ -24,6 +24,7 @@ import DeleteModal from "@/components/modals/DeleteModal";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { Image } from "lucide-react";
 
 const BannerPage = () => {
   const { t } = useTranslation();
@@ -182,28 +183,29 @@ const BannerPage = () => {
 
   return (
     <div className="space-y-8">
-      {/* Header Section */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-        <div className="space-y-2">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-white">
-            {t("banners.managementTitle")}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
-              {t("banners.managementHighlight")}
-            </span>
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 font-medium max-w-lg text-base">
-            {t("banners.managementSubtitle")}
-          </p>
+     {/* Header Section */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-2">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+            <Image className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          </div>
+          <div>
+            <h1 className="text-xl md:text-2xl font-bold leading-tight text-gray-900 dark:text-white">
+              {t("banners.managementTitle")} {t("banners.managementHighlight")}
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
+              {t("banners.managementSubtitle")}
+            </p>
+          </div>
         </div>
 
         <Button
-          className="h-12 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold flex items-center gap-2 shadow-xl shadow-blue-500/20 hover:shadow-blue-500/40 transition-all duration-300 transform hover:-translate-y-1"
+          size="sm"
+          className="h-8 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
           onClick={() => navigate("/banners/create")}
         >
-          <div className="bg-white/20 p-1 rounded-lg">
-            <Plus className="w-4 h-4" />
-          </div>
-          <span className="text-base">{t("banners.addBanner")}</span>
+          <Plus className="w-3.5 h-3.5" />
+          {t("banners.addBanner")}
         </Button>
       </div>
 

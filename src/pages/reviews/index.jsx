@@ -34,6 +34,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Plus } from "lucide-react";
 
 function ReviewsPage() {
   const { t } = useTranslation();
@@ -225,20 +226,28 @@ function ReviewsPage() {
   return (
     <div className="min-h-screen bg-[#f8f9fa] dark:bg-[#0b0f14] p-6 lg:p-10 font-sans space-y-8">
       {/* --- Header --- */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
-            {t("reviews.title") || "Product Reviews"}
-          </h1>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mt-1">
-            {t("reviews.subtitle") || "Manage and reply to customer feedback"}
-          </p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shrink-0">
+            <MessageSquare className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+          </div>
+          <div>
+            <h1 className="text-xl md:text-2xl font-bold leading-tight text-gray-900 dark:text-white">
+              {t("reviews.title") || "Product Reviews"}
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
+              {t("reviews.subtitle") || "Manage and reply to customer feedback"}
+            </p>
+          </div>
         </div>
+
         <Button
           type="button"
+          size="sm"
           onClick={() => setCreateFormOpen(true)}
-          className="mt-2 md:mt-0 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition-all"
+          className="h-8 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
         >
+          <Plus className="w-3.5 h-3.5" />
           {t("reviews.addReview") || "Add Review"}
         </Button>
       </div>
