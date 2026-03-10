@@ -1,6 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Search, Plus, Filter, LayoutGrid, LayoutList, ChevronDown, Check } from "lucide-react";
+import {
+  Search,
+  Plus,
+  Filter,
+  LayoutGrid,
+  LayoutList,
+  ChevronDown,
+  Check,
+  Image,
+} from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import {
   DropdownMenu,
@@ -44,10 +53,18 @@ export default function MediaHeader({
   return (
     <header className="sticky top-0 z-40 bg-white/80 dark:bg-[#0b0f14]/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800 px-6 lg:px-10 py-5 transition-all duration-300">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400">
-            {t("media.title")}
-          </h1>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 grid place-items-center">
+            <Image className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
+              {t("media.title")}
+            </h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+              Manage and upload images
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -58,7 +75,9 @@ export default function MediaHeader({
               placeholder={t("media.searchPlaceholder")}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput.trim())}
+              onKeyDown={(e) =>
+                e.key === "Enter" && setSearchQuery(searchInput.trim())
+              }
               className="bg-transparent border-none outline-none text-sm font-medium w-full text-gray-700 dark:text-gray-200 placeholder-gray-400"
             />
           </div>
@@ -99,8 +118,11 @@ export default function MediaHeader({
             {t("media.allFormats")}
           </Button>
           <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-            {t("media.showing")} <span className="text-gray-900 dark:text-white">{imagesCount}</span> {t("media.of")}{" "}
-            <span className="text-gray-900 dark:text-white">{total}</span> {t("media.items")}
+            {t("media.showing")}{" "}
+            <span className="text-gray-900 dark:text-white">{imagesCount}</span>{" "}
+            {t("media.of")}{" "}
+            <span className="text-gray-900 dark:text-white">{total}</span>{" "}
+            {t("media.items")}
           </div>
         </div>
 
@@ -119,15 +141,21 @@ export default function MediaHeader({
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => setSortBy("newest")}>
               {t("media.newestFirst")}
-              {sortBy === "newest" && <Check className="w-3.5 h-3.5 ml-auto text-indigo-600" />}
+              {sortBy === "newest" && (
+                <Check className="w-3.5 h-3.5 ml-auto text-indigo-600" />
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setSortBy("name")}>
               {t("media.nameAZ")}
-              {sortBy === "name" && <Check className="w-3.5 h-3.5 ml-auto text-indigo-600" />}
+              {sortBy === "name" && (
+                <Check className="w-3.5 h-3.5 ml-auto text-indigo-600" />
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setSortBy("size")}>
               {t("media.size")}
-              {sortBy === "size" && <Check className="w-3.5 h-3.5 ml-auto text-indigo-600" />}
+              {sortBy === "size" && (
+                <Check className="w-3.5 h-3.5 ml-auto text-indigo-600" />
+              )}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -82,7 +82,9 @@ const LoginPage = () => {
             userRole === "EMPLOYEE" ||
             userRole === "RESELLER"
           ) {
-            dispatch(userLoggedIn({ accessToken, refreshToken, rememberMe: false }));
+            dispatch(
+              userLoggedIn({ accessToken, refreshToken, rememberMe: false }),
+            );
             toast.success(t("auth.loginSuccess"));
             if (userRole === "RESELLER") {
               navigate("/reseller");
@@ -150,7 +152,7 @@ const LoginPage = () => {
             business with our next-gen admin console.
           </p>
 
-          <div className="relative w-full aspect-square max-w-md mx-auto flex items-center justify-center">
+          <div className="relative w-full aspect-square max-w-7xl mx-auto flex items-center justify-center">
             {animationData ? (
               <Lottie
                 animationData={animationData}
@@ -239,12 +241,10 @@ const LoginPage = () => {
             <SubmitButton
               isLoading={isLoading}
               disabled={isLoading}
-              className="w-full !bg-gradient-to-r !from-[#7c3aed] !to-[#6d28d9] hover:!from-[#6d28d9] hover:!to-[#5b21b6] !text-white !font-bold !py-4 !rounded-xl !mt-4 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all duration-300"
+              className="w-full !bg-gradient-to-r !from-[#7c3aed] !to-[#6d28d9] hover:!from-[#6d28d9] hover:!to-[#5b21b6] !text-white !font-bold !py-4 !rounded-xl !mt-4 shadow-indigo-500/30 hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all duration-300"
             >
               {isLoading ? t("auth.loggingIn") : "Sign In to Console"}
             </SubmitButton>
-
-
 
             <div className="mt-8 text-center">
               <p className="text-xs text-gray-400 font-medium">
