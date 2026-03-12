@@ -73,14 +73,22 @@ const CreateUserPage = () => {
 
   const onSubmit = async (data) => {
     try {
+      const companyId = currentUser?.companyId;
+      if (!companyId) {
+        toast.error(t("manageUsers.userCreateFailed"));
+        return;
+      }
       await createSystemuser({
-        name: data.name,
-        companyName: data.companyName,
-        email: data.email,
-        phone: data.phone,
-        role: data.role,
-        password: data.password,
-        isActive: data.isActive,
+        params: { companyId },
+        body: {
+          name: data.name,
+          companyName: data.companyName,
+          email: data.email,
+          phone: data.phone,
+          role: data.role,
+          password: data.password,
+          isActive: data.isActive,
+        },
       }).unwrap();
       toast.success(t("manageUsers.userCreated"));
       navigate("/manage-users");

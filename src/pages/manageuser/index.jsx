@@ -223,10 +223,13 @@ const ManageUsersPage = () => {
     useUpdateSystemuserMutation();
 
   const rawList = apiData?.data ?? apiData ?? [];
-  const users = useMemo(
-    () => (Array.isArray(rawList) ? rawList.map(normalizeUser) : []),
-    [rawList],
-  );
+  const companyId = currentUser?.companyId;
+  const filteredRawList = useMemo(() => {
+    if (!Array.isArray(rawList)) return [];
+    if (!companyId) return rawList;
+    return rawList.filter((u) => u?.companyId === companyId);
+  }, [rawList, companyId]);
+  const users = useMemo(() => filteredRawList.map(normalizeUser), [filteredRawList]);
 
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");

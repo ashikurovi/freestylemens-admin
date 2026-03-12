@@ -18,12 +18,18 @@ export const systemuserApiSlice = apiSlice.injectEndpoints({
 
     // Create system user
     createSystemuser: builder.mutation({
-      query: (body) => ({
-        url: "/systemuser",
-        method: "POST",
-        headers: { "Content-Type": "application/json;charset=UTF-8" },
-        body,
-      }),
+      query: (arg) => {
+        const hasEnvelope = arg && typeof arg === "object" && ("body" in arg || "params" in arg);
+        const body = hasEnvelope ? arg.body : arg;
+        const params = hasEnvelope ? arg.params : undefined;
+        return {
+          url: "/systemuser",
+          method: "POST",
+          headers: { "Content-Type": "application/json;charset=UTF-8" },
+          body,
+          ...(params ? { params } : {}),
+        };
+      },
       invalidatesTags: [{ type: "systemuser", id: "LIST" }],
     }),
 

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +10,7 @@ import { useGetCategoriesQuery } from "@/features/category/categoryApiSlice";
 import useImageUpload from "@/hooks/useImageUpload";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   ProductFormHeader,
   ProductCoverImageSection,
@@ -107,6 +108,55 @@ function CreateProductPage() {
   const [isAddingVariant, setIsAddingVariant] = useState(false);
   const [newVariantName, setNewVariantName] = useState("");
   const [newVariantColor, setNewVariantColor] = useState("#6366f1");
+  const [selectedType, setSelectedType] = useState("");
+  const typeOptions = useMemo(() => ["tshirt", "shirt", "shoes", "pant"], []);
+  const sizeOptionsMap = useMemo(
+    () => ({
+      tshirt: [
+        { value: "XS", label: "XS" },
+        { value: "S", label: "S" },
+        { value: "M", label: "M" },
+        { value: "L", label: "L" },
+        { value: "XL", label: "XL" },
+        { value: "XXL", label: "XXL" },
+        { value: "XXXL", label: "XXXL" },
+      ],
+      shirt: [
+        { value: "XS", label: "XS" },
+        { value: "S", label: "S" },
+        { value: "M", label: "M" },
+        { value: "L", label: "L" },
+        { value: "XL", label: "XL" },
+        { value: "XXL", label: "XXL" },
+        { value: "XXXL", label: "XXXL" },
+      ],
+      pant: [
+        { value: "28", label: "28" },
+        { value: "30", label: "30" },
+        { value: "32", label: "32" },
+        { value: "34", label: "34" },
+        { value: "36", label: "36" },
+        { value: "38", label: "38" },
+        { value: "40", label: "40" },
+        { value: "42", label: "42" },
+      ],
+      shoes: [
+        { value: "28", label: "28" },
+        { value: "30", label: "30" },
+        { value: "32", label: "32" },
+        { value: "34", label: "34" },
+        { value: "36", label: "36" },
+        { value: "38", label: "38" },
+        { value: "40", label: "40" },
+        { value: "42", label: "42" },
+      ],
+    }),
+    [],
+  );
+
+  useEffect(() => {
+    setSelectedSizes([]);
+  }, [selectedType]);
 
   const handleAddVariant = useCallback(() => {
     if (newVariantName.trim()) {
@@ -288,7 +338,9 @@ function CreateProductPage() {
           length: data.length ? parseFloat(data.length) : undefined,
           breadth: data.breadth ? parseFloat(data.breadth) : undefined,
           width: data.width ? parseFloat(data.width) : undefined,
+          varians: selectedSizes.length > 0 ? selectedSizes : undefined,
           unit: "Piece",
+          types: selectedType ? [selectedType] : undefined,
         };
 
         // Create product
@@ -310,6 +362,7 @@ function CreateProductPage() {
           setSaveAsDraft(false);
           setSelectedSizes([]);
           setVariants([]);
+          setSelectedType("");
           navigate("/products");
         } else {
           toast.error(
@@ -375,8 +428,61 @@ function CreateProductPage() {
               setCategoryOption={setCategoryOption}
             />
 
-        
-    
+            <div className="space-y-4 rounded-2xl bg-white dark:bg-[#1a1f26] border border-gray-100 dark:border-gray-800 p-6">
+              <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                <h3 className="text-sm font-semibold text-black/80 dark:text-white/80 uppercase tracking-wide">
+                  Product Types
+                </h3>
+              </div>
+              <RadioGroup value={selectedType} onValueChange={setSelectedType} className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {typeOptions.map((opt) => {
+                  const id = `type-${opt}`;
+                  return (
+                    <div key={opt} className="flex items-center gap-2 p-2 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-black/20">
+                      <RadioGroupItem value={opt} id={id} />
+                      <label htmlFor={id} className="text-sm cursor-pointer">
+                        {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                      </label>
+                    </div>
+                  );
+                })}
+              </RadioGroup>
+            </div>
+
+            {selectedType && (
+              <div className="space-y-4 rounded-2xl bg-white dark:bg-[#1a1f26] border border-gray-100 dark:border-gray-800 p-6">
+                <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <h3 className="text-sm font-semibold text-black/80 dark:text-white/80 uppercase tracking-wide">
+                    Size Options
+                  </h3>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {(sizeOptionsMap[selectedType] || []).map((opt) => {
+                    const checked = selectedSizes.includes(opt.value);
+                    return (
+                      <div
+                        key={opt.value}
+                        onClick={() =>
+                          setSelectedSizes((prev) =>
+                            checked
+                              ? prev.filter((v) => v !== opt.value)
+                              : [...prev, opt.value],
+                          )
+                        }
+                        className={`cursor-pointer select-none px-3 py-2 rounded-xl border ${
+                          checked
+                            ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300"
+                            : "border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300"
+                        } text-sm font-medium text-center`}
+                      >
+                        {opt.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <ProductDescriptionSection
               control={control}
               errors={errors}

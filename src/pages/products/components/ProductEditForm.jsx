@@ -8,6 +8,7 @@ import { Pencil, X, Plus } from "lucide-react";
 import TextField from "@/components/input/TextField";
 import Checkbox from "@/components/input/Checkbox";
 import Dropdown from "@/components/dropdown/dropdown";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Dialog,
   DialogTrigger,
@@ -73,6 +74,63 @@ export default function ProductEditForm({ product, categoryOptions = [] }) {
   const [imageFiles, setImageFiles] = useState([]);
   const { uploadImage, isUploading } = useImageUpload();
   const { user } = useSelector((state) => state.auth);
+  const [selectedType, setSelectedType] = useState(
+    Array.isArray(product?.types) && product.types.length > 0 ? product.types[0] : ""
+  );
+  const [selectedSizes, setSelectedSizes] = useState(
+    Array.isArray(product?.sizes) && product.sizes.length > 0
+      ? product.sizes
+      : Array.isArray(product?.varians)
+        ? product.varians
+        : []
+  );
+  const typeOptions = useMemo(() => ["tshirt", "shirt", "shoes", "pant"], []);
+  const sizeOptionsMap = useMemo(
+    () => ({
+      tshirt: [
+        { value: "XS", label: "XS" },
+        { value: "S", label: "S" },
+        { value: "M", label: "M" },
+        { value: "L", label: "L" },
+        { value: "XL", label: "XL" },
+        { value: "XXL", label: "XXL" },
+        { value: "XXXL", label: "XXXL" },
+      ],
+      shirt: [
+        { value: "XS", label: "XS" },
+        { value: "S", label: "S" },
+        { value: "M", label: "M" },
+        { value: "L", label: "L" },
+        { value: "XL", label: "XL" },
+        { value: "XXL", label: "XXL" },
+        { value: "XXXL", label: "XXXL" },
+      ],
+      pant: [
+        { value: "28", label: "28" },
+        { value: "30", label: "30" },
+        { value: "32", label: "32" },
+        { value: "34", label: "34" },
+        { value: "36", label: "36" },
+        { value: "38", label: "38" },
+        { value: "40", label: "40" },
+        { value: "42", label: "42" },
+      ],
+      shoes: [
+        { value: "28", label: "28" },
+        { value: "30", label: "30" },
+        { value: "32", label: "32" },
+        { value: "34", label: "34" },
+        { value: "36", label: "36" },
+        { value: "38", label: "38" },
+        { value: "40", label: "40" },
+        { value: "42", label: "42" },
+      ],
+    }),
+    []
+  );
+  useEffect(() => {
+    setSelectedSizes([]);
+  }, [selectedType]);
   const {
     register,
     control,
@@ -189,6 +247,9 @@ export default function ProductEditForm({ product, categoryOptions = [] }) {
       images: uploadedImages,
       thumbnail: thumbnailUrl || undefined,
       categoryId: Number(selectedCategory.value),
+      sizes: selectedSizes.length > 0 ? selectedSizes : undefined,
+      varians: selectedSizes.length > 0 ? selectedSizes : undefined,
+      types: selectedType ? [selectedType] : undefined,
     };
 
     const params = { companyId: user.companyId };
@@ -411,6 +472,57 @@ export default function ProductEditForm({ product, categoryOptions = [] }) {
                 <span className="text-black/50 dark:text-white/50">Select Category</span>
               )}
             </Dropdown>
+            <div className="space-y-4 rounded-2xl bg-white dark:bg-[#1a1f26] border border-gray-100 dark:border-gray-800 p-6">
+              <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                <h3 className="text-sm font-semibold text-black/80 dark:text-white/80 uppercase tracking-wide">
+                  Product Types
+                </h3>
+              </div>
+              <RadioGroup value={selectedType} onValueChange={setSelectedType} className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {typeOptions.map((opt) => {
+                  const id = `edit-type-${opt}`;
+                  return (
+                    <div key={opt} className="flex items-center gap-2 p-2 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-black/20">
+                      <RadioGroupItem value={opt} id={id} />
+                      <label htmlFor={id} className="text-sm cursor-pointer">
+                        {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                      </label>
+                    </div>
+                  );
+                })}
+              </RadioGroup>
+            </div>
+            {selectedType && (
+              <div className="space-y-4 rounded-2xl bg-white dark:bg-[#1a1f26] border border-gray-100 dark:border-gray-800 p-6">
+                <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <h3 className="text-sm font-semibold text-black/80 dark:text-white/80 uppercase tracking-wide">
+                    Size Options
+                  </h3>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {(sizeOptionsMap[selectedType] || []).map((opt) => {
+                    const checked = selectedSizes.includes(opt.value);
+                    return (
+                      <div
+                        key={opt.value}
+                        onClick={() =>
+                          setSelectedSizes((prev) =>
+                            checked ? prev.filter((v) => v !== opt.value) : [...prev, opt.value]
+                          )
+                        }
+                        className={`cursor-pointer select-none px-3 py-2 rounded-xl border ${
+                          checked
+                            ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300"
+                            : "border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300"
+                        } text-sm font-medium text-center`}
+                      >
+                        {opt.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <DialogFooter>
