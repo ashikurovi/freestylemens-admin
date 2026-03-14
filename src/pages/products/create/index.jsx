@@ -109,7 +109,7 @@ function CreateProductPage() {
   const [newVariantName, setNewVariantName] = useState("");
   const [newVariantColor, setNewVariantColor] = useState("#6366f1");
   const [selectedType, setSelectedType] = useState("");
-  const typeOptions = useMemo(() => ["tshirt", "shirt", "shoes", "pant"], []);
+  const typeOptions = useMemo(() => ["tshirt", "shirt", "shoes", "pant", "coqizitem"], []);
   const sizeOptionsMap = useMemo(
     () => ({
       tshirt: [
@@ -149,6 +149,12 @@ function CreateProductPage() {
         { value: "38", label: "38" },
         { value: "40", label: "40" },
         { value: "42", label: "42" },
+      ],
+      coqizitem: [
+        { value: "100gm", label: "100gm" },
+        { value: "250gm", label: "250gm" },
+        { value: "500gm", label: "500gm" },
+        { value: "1kg", label: "1kg" },
       ],
     }),
     [],

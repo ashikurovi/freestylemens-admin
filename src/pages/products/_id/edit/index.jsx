@@ -6,6 +6,7 @@ import * as yup from "yup";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   useUpdateProductMutation,
   useGetProductQuery,
@@ -98,6 +99,7 @@ export default function ProductEditPage() {
   const [isAddingVariant, setIsAddingVariant] = useState(false);
   const [newVariantName, setNewVariantName] = useState("");
   const [newVariantColor, setNewVariantColor] = useState("#6366f1");
+  const [selectedType, setSelectedType] = useState("");
   const initializedRef = useRef(false);
 
   const {
@@ -114,6 +116,57 @@ export default function ProductEditPage() {
 
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const { uploadImage, isUploading } = useImageUpload();
+
+  const typeOptions = useMemo(() => ["tshirt", "shirt", "shoes", "pant", "coqizitem"], []);
+  const sizeOptionsMap = useMemo(
+    () => ({
+      tshirt: [
+        { value: "XS", label: "XS" },
+        { value: "S", label: "S" },
+        { value: "M", label: "M" },
+        { value: "L", label: "L" },
+        { value: "XL", label: "XL" },
+        { value: "XXL", label: "XXL" },
+        { value: "XXXL", label: "XXXL" },
+      ],
+      shirt: [
+        { value: "XS", label: "XS" },
+        { value: "S", label: "S" },
+        { value: "M", label: "M" },
+        { value: "L", label: "L" },
+        { value: "XL", label: "XL" },
+        { value: "XXL", label: "XXL" },
+        { value: "XXXL", label: "XXXL" },
+      ],
+      pant: [
+        { value: "28", label: "28" },
+        { value: "30", label: "30" },
+        { value: "32", label: "32" },
+        { value: "34", label: "34" },
+        { value: "36", label: "36" },
+        { value: "38", label: "38" },
+        { value: "40", label: "40" },
+        { value: "42", label: "42" },
+      ],
+      shoes: [
+        { value: "28", label: "28" },
+        { value: "30", label: "30" },
+        { value: "32", label: "32" },
+        { value: "34", label: "34" },
+        { value: "36", label: "36" },
+        { value: "38", label: "38" },
+        { value: "40", label: "40" },
+        { value: "42", label: "42" },
+      ],
+      coqizitem: [
+        { value: "100gm", label: "100gm" },
+        { value: "250gm", label: "250gm" },
+        { value: "500gm", label: "500gm" },
+        { value: "1kg", label: "1kg" },
+      ],
+    }),
+    [],
+  );
 
   const categoryOptions = useMemo(
     () => categories.map((cat) => ({ label: cat.name, value: cat.id })),
@@ -154,6 +207,10 @@ export default function ProductEditPage() {
       if (found) setCategoryOption({ label: found.name, value: found.id });
     }
 
+    if (product.types?.length) {
+      setSelectedType(product.types[0] || "");
+    }
+
     if (product.sizes?.length) {
       const defaultSizes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       const sizeList = [
@@ -173,6 +230,10 @@ export default function ProductEditPage() {
       );
     }
   }, [product, categories, setValue]);
+
+  useEffect(() => {
+    setSelectedSizes([]);
+  }, [selectedType]);
 
   const handleAddVariant = useCallback(() => {
     if (newVariantName.trim()) {
@@ -264,6 +325,7 @@ export default function ProductEditPage() {
           breadth: data.breadth ? parseFloat(data.breadth) : undefined,
           width: data.width ? parseFloat(data.width) : undefined,
           unit: "Piece",
+          types: selectedType ? [selectedType] : undefined,
         };
 
         await updateProduct({
@@ -289,6 +351,7 @@ export default function ProductEditPage() {
       categoryOption,
       selectedSizes,
       variants,
+      selectedType,
       uploadImage,
       updateProduct,
       user,
@@ -342,8 +405,62 @@ export default function ProductEditPage() {
               categoryOption={categoryOption}
               setCategoryOption={setCategoryOption}
             />
+
+            <div className="space-y-4 rounded-2xl bg-white dark:bg-[#1a1f26] border border-gray-100 dark:border-gray-800 p-6">
+              <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                <h3 className="text-sm font-semibold text-black/80 dark:text-white/80 uppercase tracking-wide">
+                  Product Types
+                </h3>
+              </div>
+              <RadioGroup value={selectedType} onValueChange={setSelectedType} className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {typeOptions.map((opt) => {
+                  const id = `type-${opt}`;
+                  return (
+                    <div key={opt} className="flex items-center gap-2 p-2 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-black/20">
+                      <RadioGroupItem value={opt} id={id} />
+                      <label htmlFor={id} className="text-sm cursor-pointer">
+                        {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                      </label>
+                    </div>
+                  );
+                })}
+              </RadioGroup>
+            </div>
+
+            {selectedType && (
+              <div className="space-y-4 rounded-2xl bg-white dark:bg-[#1a1f26] border border-gray-100 dark:border-gray-800 p-6">
+                <div className="flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+                  <h3 className="text-sm font-semibold text-black/80 dark:text-white/80 uppercase tracking-wide">
+                    Size Options
+                  </h3>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {(sizeOptionsMap[selectedType] || []).map((opt) => {
+                    const checked = selectedSizes.includes(opt.value);
+                    return (
+                      <div
+                        key={opt.value}
+                        onClick={() =>
+                          setSelectedSizes((prev) =>
+                            checked
+                              ? prev.filter((v) => v !== opt.value)
+                              : [...prev, opt.value],
+                          )
+                        }
+                        className={`cursor-pointer select-none px-3 py-2 rounded-xl border ${
+                          checked
+                            ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300"
+                            : "border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black/20 text-gray-700 dark:text-gray-300"
+                        } text-sm font-medium text-center`}
+                      >
+                        {opt.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
      
-           
             <ProductDescriptionSection
               control={control}
               errors={errors}
