@@ -5,8 +5,8 @@ const STEADFAST_BASE_URL = "https://portal.packzy.com/api/v1";
 
 // Function to get credentials from localStorage or environment variables
 const getCredentials = () => {
-  const API_KEY = localStorage.getItem("steadfastApiKey") || import.meta.env.VITE_STEADFAST_API_KEY || "ynl1e3u6p3bnxqu1lspdmz4zt1lpcxd2";
-  const SECRET_KEY = localStorage.getItem("steadfastSecretKey") || import.meta.env.VITE_STEADFAST_SECRET_KEY || "brzlqfob09jelb5g06cblbon";
+  const API_KEY = localStorage.getItem("steadfastApiKey") 
+  const SECRET_KEY = localStorage.getItem("steadfastSecretKey") 
   return { API_KEY, SECRET_KEY };
 };
 

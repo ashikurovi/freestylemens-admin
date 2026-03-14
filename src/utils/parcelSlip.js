@@ -21,12 +21,7 @@ export const generateParcelSlip = async (order, options = {}) => {
 
   const trackingId = order.shippingTrackingId || `SC-${order.id}`;
   // Company domain from API (auth/me): customDomain, subdomain, or env fallback
-  const trackingPageBase =
-    options.trackingPageUrl ||
-    options.companyDomain ||
-    import.meta.env.VITE_APP_URL ||
-    import.meta.env.VITE_TRACKING_PAGE_URL ||
-    (typeof window !== "undefined" ? window.location.origin : "https://squadcart.com");
+  const trackingPageBase = "https://fiberace.com";
   const trackingUrl = `${trackingPageBase.replace(/\/$/, "")}/track-order?trackingId=${encodeURIComponent(trackingId)}`;
 
   const companyName = options.companyName || "SquadCart";
@@ -74,7 +69,6 @@ export const generateParcelSlip = async (order, options = {}) => {
   });
 
   const w = doc.internal.pageSize.getWidth();
-  const h = doc.internal.pageSize.getHeight();
 
   // Layout metrics
   const margin = 7; // inner content margin for nicer breathing room

@@ -13,7 +13,8 @@ const useOrdersTable = (
   setCancelModal,
   setRefundModal,
   setPartialPaymentModal,
-  setDeleteModal
+  setDeleteModal,
+  handleExportCourier
 ) => {
   const { t } = useTranslation();
   const authUser = useSelector((state) => state.auth.user);
@@ -156,6 +157,7 @@ const useOrdersTable = (
               order={o}
               onProcess={() => setProcessModal({ isOpen: true, order: o })}
               onShip={() => handleShipModalOpen(o)}
+              onExportCourier={() => handleExportCourier?.(o)}
               onDeliver={() => setDeliverModal({ isOpen: true, order: o })}
               onCancel={() => setCancelModal({ isOpen: true, order: o })}
               onRefund={() => setRefundModal({ isOpen: true, order: o })}
@@ -176,6 +178,7 @@ const useOrdersTable = (
       setRefundModal,
       setPartialPaymentModal,
       setDeleteModal,
+      handleExportCourier,
       t,
       isReseller,
     ],

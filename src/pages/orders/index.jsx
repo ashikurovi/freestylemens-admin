@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   useGetOrdersQuery,
   useProcessOrderMutation,
@@ -14,6 +15,8 @@ import {
   useCancelOrderMutation,
   useRefundOrderMutation,
 } from "@/features/order/orderApiSlice";
+import { useCreateOrderMutation as useSteadfastCreateOrderMutation } from "@/features/steadfast/steadfastApiSlice";
+import { hasPermission, FeaturePermission } from "@/constants/feature-permission";
 import DeleteModal from "@/components/modals/DeleteModal";
 import OrdersHeader from "./components/OrdersHeader";
 import OrdersStats from "./components/OrdersStats";
@@ -21,6 +24,7 @@ import OrdersTableSection from "./components/OrdersTableSection";
 import ProcessOrderModal from "./components/ProcessOrderModal";
 import ShipOrderModal from "./components/ShipOrderModal";
 import DeliverOrderModal from "./components/DeliverOrderModal";
+import ExportCourierConfirmModal from "./components/ExportCourierConfirmModal";
 import CancelOrderModal from "./components/CancelOrderModal";
 import RefundOrderModal from "./components/RefundOrderModal";
 import PartialPaymentModal from "./components/PartialPaymentModal";
@@ -31,6 +35,7 @@ import useOrdersTable from "./hooks/useOrdersTable";
 const OrdersPage = () => {
   const { t } = useTranslation();
   const authUser = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
   const { data: orders = [], isLoading } = useGetOrdersQuery({
     companyId: authUser?.companyId,
   });
@@ -47,6 +52,7 @@ const OrdersPage = () => {
     useRecordPartialPaymentMutation();
   const [cancelOrder, { isLoading: isCancelling }] = useCancelOrderMutation();
   const [refundOrder, { isLoading: isRefunding }] = useRefundOrderMutation();
+  const [steadfastCreateOrder] = useSteadfastCreateOrderMutation();
 
   // Modal states
   const [deleteModal, setDeleteModal] = useState({
@@ -89,6 +95,11 @@ const OrdersPage = () => {
   const [refundModal, setRefundModal] = useState({
     isOpen: false,
     order: null,
+  });
+  const [exportModal, setExportModal] = useState({
+    isOpen: false,
+    order: null,
+    providerLabel: "",
   });
 
   // Filter states
@@ -185,6 +196,123 @@ const OrdersPage = () => {
     setRefundModal,
     setPartialPaymentModal,
     setDeleteModal,
+    async (order) => {
+      const canSteadfast = hasPermission(authUser, FeaturePermission.STEARDFAST) || hasPermission(authUser, FeaturePermission.STEADFAST_COURIER);
+      const canPathao = hasPermission(authUser, FeaturePermission.PATHAO) || hasPermission(authUser, FeaturePermission.PATHAO_COURIER);
+      const canRedx = hasPermission(authUser, FeaturePermission.REDX) || hasPermission(authUser, FeaturePermission.REDX_COURIER);
+      if (canSteadfast) {
+        setExportModal({
+          isOpen: true,
+          order,
+          providerLabel: "Steadfast",
+        });
+        return;
+      }
+      if (canPathao) {
+        setExportModal({
+          isOpen: true,
+          order,
+          providerLabel: "Pathao",
+        });
+        return;
+      }
+      if (canRedx) {
+        setExportModal({
+          isOpen: true,
+          order,
+          providerLabel: "RedX",
+        });
+        return;
+      }
+      toast.error(t("common.failed"));
+    },
+  );
+
+  const performExportCourier = useCallback(
+    async (order) => {
+      const canSteadfast = hasPermission(authUser, FeaturePermission.STEARDFAST) || hasPermission(authUser, FeaturePermission.STEADFAST_COURIER);
+      const canPathao = hasPermission(authUser, FeaturePermission.PATHAO) || hasPermission(authUser, FeaturePermission.PATHAO_COURIER);
+      const canRedx = hasPermission(authUser, FeaturePermission.REDX) || hasPermission(authUser, FeaturePermission.REDX_COURIER);
+      if (canSteadfast) {
+        try {
+          const items = order.orderItems || order.items || [];
+          const itemDescription =
+            items
+              .map(
+                (item) =>
+                  item.productName || item.name || item.product?.name || "Product",
+              )
+              .join(", ") || "";
+          const formData = {
+            invoice: order.id?.toString() || "",
+            recipient_name: order.customer?.name || order.customerName || "",
+            recipient_phone:
+              order.customer?.phone || order.shippingPhone || "",
+            alternative_phone: order.customer?.phone || "",
+            recipient_email:
+              order.customer?.email || order.customerEmail || "",
+            recipient_address:
+              order.customerAddress || order.billingAddress || "",
+            cod_amount: order.totalAmount ? Number(order.totalAmount) : 0,
+            note: order.notes || "",
+            item_description: itemDescription,
+            total_lot: items?.length ? Number(items.length) : 1,
+            delivery_type: 0,
+          };
+          const result = await steadfastCreateOrder(formData).unwrap();
+          if (result.status === 200) {
+            toast.success(
+              result.message || t("steadfast.orderCreatedSuccess", "Order created successfully"),
+            );
+            const trackingCode =
+              result.consignment?.tracking_code || result.tracking_code;
+            const consignmentId =
+              result.consignment?.consignment_id || result.consignment_id;
+            const shipmentData = {
+              shippingTrackingId: trackingCode || consignmentId || "",
+              shippingProvider: "Steadfast",
+              status: "shipped",
+            };
+            try {
+              await shipOrder({
+                id: order.id,
+                body: shipmentData,
+              }).unwrap();
+              toast.success(
+                t("steadfast.orderStatusUpdated", "Order status updated to Shipped"),
+              );
+            } catch (shipError) {
+              toast.error(
+                t(
+                  "steadfast.orderCreatedStatusFailed",
+                  "Order created but failed to update status",
+                ),
+              );
+            }
+          } else {
+            toast.error(
+              result?.data?.message || t("steadfast.createOrderFailed", "Failed to create order"),
+            );
+          }
+        } catch (error) {
+          const errorMessage =
+            error?.data?.message ||
+            t("steadfast.createOrderFailed", "Failed to create order");
+          toast.error(errorMessage);
+        }
+        return;
+      }
+      if (canPathao) {
+        navigate(`/pathao?orderId=${order.id}`);
+        return;
+      }
+      if (canRedx) {
+        navigate(`/redx?orderId=${order.id}`);
+        return;
+      }
+      toast.error(t("common.failed"));
+    },
+    [authUser, navigate, shipOrder, steadfastCreateOrder, t],
   );
 
   // Handler functions
@@ -489,6 +617,18 @@ const OrdersPage = () => {
         order={refundModal.order}
         onConfirm={handleRefund}
         isLoading={isRefunding}
+      />
+
+      <ExportCourierConfirmModal
+        isOpen={exportModal.isOpen}
+        onClose={() => setExportModal({ isOpen: false, order: null, providerLabel: "" })}
+        order={exportModal.order}
+        providerLabel={exportModal.providerLabel}
+        onConfirm={async () => {
+          if (!exportModal.order) return;
+          await performExportCourier(exportModal.order);
+          setExportModal({ isOpen: false, order: null, providerLabel: "" });
+        }}
       />
 
       <PartialPaymentModal

@@ -32,6 +32,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "react-router-dom";
 
 const CreateOrder = () => {
   const { t } = useTranslation();
@@ -79,6 +80,7 @@ const CreateOrder = () => {
         : areasData?.areas || [];
 
   const pickupStores = storesData?.pickup_stores || [];
+  const [searchParams] = useSearchParams();
 
   const {
     register,
@@ -145,6 +147,15 @@ const CreateOrder = () => {
 
     toast.success(t("redx.orderAutoFilled"));
   };
+
+  useEffect(() => {
+    const oid = searchParams.get("orderId");
+    if (!oid) return;
+    const opt = orderOptions.find((o) => String(o.value) === String(oid));
+    if (opt) {
+      handleOrderSelect(opt);
+    }
+  }, [searchParams, orderOptions]);
 
   const onSubmit = async (data) => {
     try {

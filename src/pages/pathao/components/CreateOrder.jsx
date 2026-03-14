@@ -17,6 +17,7 @@ import Dropdown from "@/components/dropdown/dropdown";
 import { useSelector } from "react-redux";
 import { Loader2, AlertCircle, ChevronDown, Package, User, MapPin, Store, Truck, FileText, CheckCircle2, DollarSign, Scale, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "react-router-dom";
 
 const CreateOrder = () => {
   const { t } = useTranslation();
@@ -55,6 +56,7 @@ const CreateOrder = () => {
   const { data: areasData } = useGetAreasQuery(selectedZone, {
     skip: !selectedZone,
   });
+  const [searchParams] = useSearchParams();
 
   const {
     register,
@@ -153,6 +155,15 @@ const CreateOrder = () => {
     
     toast.success(t("pathao.orderAutoFilled"));
   };
+
+  useEffect(() => {
+    const oid = searchParams.get("orderId");
+    if (!oid) return;
+    const opt = orderOptions.find((o) => String(o.value) === String(oid));
+    if (opt) {
+      handleOrderSelect(opt);
+    }
+  }, [searchParams, orderOptions]);
 
   const onSubmit = async (data) => {
     try {

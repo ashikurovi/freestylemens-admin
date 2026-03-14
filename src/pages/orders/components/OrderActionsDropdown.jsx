@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Download } from "lucide-react";
+ import { MoreHorizontal, Download, Truck } from "lucide-react";
 import { generateParcelSlip } from "@/utils/parcelSlip";
 
 const OrderActionsDropdown = ({
@@ -22,9 +23,19 @@ const OrderActionsDropdown = ({
   onRefund,
   onPartialPayment,
   onDelete,
+  onExportCourier,
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.auth.user);
+  const companyName =
+    authUser?.companyName ||
+    authUser?.company?.name ||
+    authUser?.storeName ||
+    authUser?.name ||
+    "SquadCart";
+  const companyLogo =
+    authUser?.companyLogo || authUser?.company?.logo || authUser?.logo || null;
 
   return (
     <DropdownMenu>
@@ -48,7 +59,10 @@ const OrderActionsDropdown = ({
         <DropdownMenuItem
           onClick={async () => {
             try {
-              await generateParcelSlip(order);
+              await generateParcelSlip(order, {
+                companyName,
+                companyLogo,
+              });
               toast.success(
                 t("orders.parcelSlipGenerated") ||
                   "Parcel slip generated successfully",
@@ -82,6 +96,10 @@ const OrderActionsDropdown = ({
                 {t("orders.trackOrder")}
               </DropdownMenuItem>
             )}
+            <DropdownMenuItem onClick={onExportCourier}>
+              <Truck className="mr-2 h-4 w-4" />
+              {t("orders.exportCourier") || "Export Courier"}
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={onShip}>
               Mark as Shipped
             </DropdownMenuItem>
