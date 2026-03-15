@@ -96,7 +96,7 @@ export default function ProductViewModal({ product }) {
                                 <label className="text-sm font-medium text-black/70 dark:text-white/70">{t("products.price")}</label>
                                 <p className="text-base text-black dark:text-white mt-1">
                                     {typeof product.price === "number"
-                                        ? `$${product.price.toFixed(2)}`
+                                        ? `BD Tk ${product.price.toFixed(2)}`
                                         : product.price || "-"}
                                 </p>
                             </div>
@@ -106,7 +106,7 @@ export default function ProductViewModal({ product }) {
                                         {t("products.discountPrice")}
                                     </label>
                                     <p className="text-base text-green-600 dark:text-green-400 mt-1 font-semibold">
-                                        ${typeof product.discountPrice === "number"
+                                        BD Tk {typeof product.discountPrice === "number"
                                             ? product.discountPrice.toFixed(2)
                                             : product.discountPrice}
                                     </p>

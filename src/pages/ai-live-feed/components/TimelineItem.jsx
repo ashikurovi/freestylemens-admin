@@ -1,7 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { User, ExternalLink } from "lucide-react";
-import { getIconForType, getBgForType } from "./iconConfig";
 
 // -----------------------------------------------------------------------------
 // TimelineItem section: one feed entry (icon, meta, content)
@@ -21,19 +19,7 @@ const TimelineConnector = ({ visible }) =>
  * Icon circle with type-based gradient and hover animation.
  * Uses iconConfig for type -> icon and background class.
  */
-const TimelineIcon = ({ type }) => {
-  const IconComponent = getIconForType(type);
-  const iconBg = getBgForType(type);
-  return (
-    <div className="relative z-10 flex-shrink-0">
-      <div
-        className={`flex items-center justify-center w-14 h-14 rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-none ring-4 ring-white dark:ring-[#0b0f14] ${iconBg} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
-      >
-        <IconComponent className="w-6 h-6 text-white" />
-      </div>
-    </div>
-  );
-};
+const TimelineIcon = () => null;
 
 /**
  * Avatar or placeholder for the timeline item user.
@@ -46,11 +32,7 @@ const ItemAvatar = ({ avatar, user }) =>
       alt={user}
       className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-100 dark:ring-gray-800"
     />
-  ) : (
-    <div className="w-10 h-10 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center ring-2 ring-gray-100 dark:ring-gray-800">
-      <User className="w-5 h-5 text-gray-400" />
-    </div>
-  );
+  ) : null;
 
 /**
  * User name, action, time, date, and optional target badge.
@@ -62,7 +44,9 @@ const ItemMeta = ({ user, action, time, date, target }) => (
       <span className="font-bold text-gray-900 dark:text-white text-base hover:text-[#887CFD] transition-colors cursor-pointer">
         {user}
       </span>
-      <span className="text-sm text-gray-500 dark:text-gray-400">{action}</span>
+      <span className="text-sm text-gray-500 dark:text-gray-400">
+        {typeof action === "string" ? action.replace(/\$/g, "BD Tk ") : action}
+      </span>
     </div>
     <div className="flex items-center gap-2 text-xs text-gray-400 mt-0.5">
       <span className="font-medium">{time}</span>
@@ -85,7 +69,7 @@ const ItemContent = ({ content }) =>
   content ? (
     <div className="pl-[52px]">
       <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800/50 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-        {content}
+        {typeof content === "string" ? content.replace(/\$/g, "BD Tk ") : content}
       </div>
     </div>
   ) : null;
@@ -125,9 +109,7 @@ const TimelineItem = ({ item, isLast }) => {
                 target={item.target}
               />
             </div>
-            <button className="text-gray-400 hover:text-[#887CFD] transition-colors p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full">
-              <ExternalLink className="w-4 h-4" />
-            </button>
+            <div />
           </div>
           <ItemContent content={item.content} />
         </div>

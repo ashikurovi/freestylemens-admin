@@ -176,7 +176,7 @@ export default function InvoiceItemsSection({
                   <td className="py-4 px-4 w-[150px]">
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
-                        $
+                        BD Tk
                       </span>
                       <input
                         type="number"
@@ -241,7 +241,7 @@ export default function InvoiceItemsSection({
                         }}
                       >
                         <option value="%">%</option>
-                        <option value="fixed">$</option>
+                        <option value="fixed">BD Tk</option>
                       </select>
                     </div>
                   </td>
@@ -273,7 +273,7 @@ export default function InvoiceItemsSection({
                   <td className="py-4 px-4 w-[150px]">
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
-                        $
+                        BD Tk
                       </span>
                       <input
                         value={item.amount.toFixed(2)}

@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { Wallet, TrendingUp, CreditCard, Globe2, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import LineChartComponent from "@/components/charts/line-chart";
 import { useGetEarningsOverviewQuery } from "@/features/earnings/earningsApiSlice";
 import { motion } from "framer-motion";
@@ -25,7 +26,7 @@ const SuperAdminEarningsPage = () => {
           value: "৳0",
           trend: "0.0%",
           trendDir: "up",
-          icon: DollarSign,
+          icon: BdtIcon,
           bg: "bg-violet-50 dark:bg-violet-900/20",
           color: "text-violet-600 dark:text-violet-400",
           wave: "text-violet-500",

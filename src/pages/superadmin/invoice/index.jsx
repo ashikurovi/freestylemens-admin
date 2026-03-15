@@ -3,7 +3,6 @@ import {
   ChevronDown,
   ChevronRight,
   FileText,
-  DollarSign,
   CreditCard,
   Building2,
   User,
@@ -21,6 +20,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import {
   useGetInvoicesQuery,
   useDeleteInvoiceMutation,
@@ -105,7 +105,7 @@ const InvoiceManagementPage = () => {
         value: formatMoney(paidAmount),
         trend: `${paidRate}% Paid`,
         trendDir: "up",
-        icon: DollarSign,
+        icon: BdtIcon,
         bg: "bg-emerald-50 dark:bg-emerald-900/20",
         color: "text-emerald-600 dark:text-emerald-400",
         wave: "text-emerald-500",

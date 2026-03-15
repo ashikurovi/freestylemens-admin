@@ -20,8 +20,11 @@ export function useReportText(data, currentLang) {
   const generatedAt = data?.generatedAt;
   const hasReport = reportText && reportText.trim().length > 0;
 
-  const displayText =
+  const rawDisplayText =
     reportLang === "original" ? reportText : (translatedText ?? reportText);
+  // Show currency as BD Tk instead of $
+  const displayText =
+    (rawDisplayText || "").replace(/\$/g, "BD Tk ");
 
   const paragraphs = displayText
     ? displayText

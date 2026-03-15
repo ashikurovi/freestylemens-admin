@@ -15,7 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Dropdown from "@/components/dropdown/dropdown";
 import { useSelector } from "react-redux";
-import { Loader2, AlertCircle, ChevronDown, Package, User, MapPin, Store, Truck, FileText, CheckCircle2, DollarSign, Scale, Layers } from "lucide-react";
+import { Loader2, AlertCircle, ChevronDown, Package, User, MapPin, Store, Truck, FileText, CheckCircle2, Scale, Layers } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "react-router-dom";
 
@@ -580,7 +581,7 @@ const CreateOrder = () => {
 
               <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block flex items-center gap-2">
-                   <DollarSign className="w-4 h-4 text-green-600" />
+                   <BdtIcon className="w-4 h-4 text-green-600" />
                    {t("pathao.amountToCollect")}
                  </label>
                  <TextField

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { MessageSquare, Activity } from "lucide-react";
 import TimelineItem from "./TimelineItem";
 
 // -----------------------------------------------------------------------------
@@ -30,7 +29,6 @@ const FeedErrorState = () => {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center justify-center h-96 gap-4 text-red-400 bg-white dark:bg-[#1a1f26] rounded-2xl border border-gray-100 dark:border-gray-800">
-      <Activity className="w-8 h-8 opacity-50" />
       <p>{t("aiLiveFeed.loadFailed")}</p>
     </div>
   );
@@ -44,9 +42,6 @@ const FeedEmptyState = () => {
   const { t } = useTranslation();
   return (
     <div className="text-center py-20 bg-white dark:bg-[#1a1f26] rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm">
-      <div className="w-20 h-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-        <MessageSquare className="w-10 h-10 text-gray-300" />
-      </div>
       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
         {t("aiLiveFeed.noActivityYet")}
       </h3>

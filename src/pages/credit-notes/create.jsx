@@ -7,12 +7,12 @@ import {
   PlusCircle, 
   FileText,
   User as UserIcon,
-  DollarSign,
   AlertCircle,
   Loader2,
   CreditCard,
   Activity
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { Button } from "@/components/ui/button";
 import { useCreateCreditNoteMutation } from "@/features/credit-note/creditNoteApiSlice";
 import { useGetSaleInvoicesQuery } from "@/features/invoice/saleInvoiceApiSlice";
@@ -180,7 +180,7 @@ const CreateCreditNotePage = () => {
             <div className="space-y-6">
               <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-gray-800">
                 <div className="w-10 h-10 rounded-full bg-[#976DF7]/10 flex items-center justify-center">
-                  <DollarSign className="w-5 h-5 text-[#976DF7]" />
+                  <BdtIcon className="w-5 h-5 text-[#976DF7]" />
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Financial Details</h3>

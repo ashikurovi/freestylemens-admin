@@ -24,19 +24,19 @@ export default function InvoiceSummarySection({
           <span className="text-gray-500">
             {t("invoices.create.summary.amount")}
           </span>
-          <span className="font-bold">${subTotal.toLocaleString()}</span>
+          <span className="font-bold">BD Tk {subTotal.toLocaleString()}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">
             {t("invoices.create.summary.cgst")}
           </span>
-          <span className="font-bold">${cgst.toFixed(2)}</span>
+          <span className="font-bold">BD Tk {cgst.toFixed(2)}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">
             {t("invoices.create.summary.sgst")}
           </span>
-          <span className="font-bold">${sgst.toFixed(2)}</span>
+          <span className="font-bold">BD Tk {sgst.toFixed(2)}</span>
         </div>
         <div className="flex items-center gap-2 pt-2 text-[#7c3aed] cursor-pointer">
           <PlusCircle className="w-4 h-4" />
@@ -73,7 +73,7 @@ export default function InvoiceSummarySection({
                 }
               >
                 <option value="%">%</option>
-                <option value="fixed">$</option>
+                <option value="fixed">BD Tk</option>
               </select>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function InvoiceSummarySection({
             </span>
           </div>
           <span className="font-bold text-lg">
-            ${Math.round(total).toLocaleString()}
+            BD Tk {Math.round(total).toLocaleString()}
           </span>
         </div>
         <div className="pt-4 border-t border-gray-200 dark:border-gray-800 flex justify-between items-end">
@@ -97,7 +97,7 @@ export default function InvoiceSummarySection({
           </div>
           <div className="text-right">
             <p className="text-2xl font-black text-[#7c3aed]">
-              ${Math.round(total).toLocaleString()}
+              BD Tk {Math.round(total).toLocaleString()}
             </p>
           </div>
         </div>

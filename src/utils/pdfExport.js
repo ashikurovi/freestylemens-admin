@@ -182,10 +182,10 @@ export const exportProductsToPDF = (products, fileName = "Products") => {
     name: product.name ?? product.title ?? "-",
     sku: product.sku ?? "-",
     category: product.category?.name ?? "-",
-    price: typeof product.price === "number" ? `$${product.price.toFixed(2)}` : product.price ?? "-",
+    price: typeof product.price === "number" ? `BD Tk ${product.price.toFixed(2)}` : product.price ?? "-",
     discountPrice: product.discountPrice
       ? typeof product.discountPrice === "number"
-        ? `$${product.discountPrice.toFixed(2)}`
+        ? `BD Tk ${product.discountPrice.toFixed(2)}`
         : product.discountPrice
       : "-",
     stock: product.stock ?? 0,
@@ -247,8 +247,8 @@ export const exportFlashSellToPDF = (flashSellProducts, fileName = "Flash_Sell_P
     return {
       name: product.name || "-",
       sku: product.sku || "-",
-      regularPrice: `$${regularPrice.toFixed(2)}`,
-      flashPrice: `$${flashPrice.toFixed(2)}`,
+      regularPrice: `BD Tk ${regularPrice.toFixed(2)}`,
+      flashPrice: `BD Tk ${flashPrice.toFixed(2)}`,
       discount: `${discount}%`,
       startTime: startTime ? startTime.toLocaleString() : "-",
       endTime: endTime ? endTime.toLocaleString() : "-",
@@ -338,11 +338,11 @@ export const exportOrderItemsToPDF = (orderItems, fileName = "Order_Items") => {
     quantity: item.quantity ?? 0,
     unitPrice:
       typeof item.unitPrice === "number"
-        ? `$${item.unitPrice.toFixed(2)}`
+        ? `BD Tk ${item.unitPrice.toFixed(2)}`
         : item.unitPrice ?? "-",
     totalPrice:
       typeof item.totalPrice === "number"
-        ? `$${item.totalPrice.toFixed(2)}`
+        ? `BD Tk ${item.totalPrice.toFixed(2)}`
         : item.totalPrice ?? "-",
     orderStatus: item.orderStatus ?? "-",
     createdAt: item.createdAt

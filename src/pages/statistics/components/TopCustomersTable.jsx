@@ -40,7 +40,7 @@ export default function TopCustomersTable({ paymentData = [] }) {
   // Format amount for display
   const formatAmount = (amount) => {
     if (typeof amount === "string") return amount;
-    return `$${amount.toFixed(2)}`;
+    return `BD Tk ${amount.toFixed(2)}`;
   };
 
   // Get sort icon

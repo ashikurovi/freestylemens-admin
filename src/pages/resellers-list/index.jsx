@@ -14,7 +14,6 @@ import { useUpdateSystemuserMutation } from "@/features/systemuser/systemuserApi
 import {
   Package,
   ShoppingCart,
-  DollarSign,
   User,
   Mail,
   CreditCard,
@@ -26,6 +25,7 @@ import {
   Download,
   Pencil,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 
 const openInvoicePrintWindow = (data) => {
   const w = window.open("", "_blank", "width=600,height=700");
@@ -386,7 +386,7 @@ const ResellersListPage = () => {
                         </td>
                         <td className="px-4 py-3 text-right font-medium text-slate-900 dark:text-slate-50">
                           <span className="inline-flex items-center gap-1">
-                            <DollarSign className="w-4 h-4 text-emerald-500" />
+                            <BdtIcon className="w-4 h-4 text-emerald-500" />
                             {formatMoney(r.totalEarning)}
                           </span>
                         </td>

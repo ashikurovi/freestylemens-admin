@@ -187,14 +187,7 @@ export const navSections = [
         permission: FeaturePermission.ORDER_INVOICE_FINANCE,
         icon: FileText,
       },
-      {
-        id: 6.52,
-        title: "Recurring Invoices",
-        tKey: "nav.recurringInvoices",
-        link: "/recurring-invoices",
-        permission: FeaturePermission.SALE_INVOICE_MANAGEMENT,
-        icon: Repeat,
-      },
+      
     ],
   },
   {

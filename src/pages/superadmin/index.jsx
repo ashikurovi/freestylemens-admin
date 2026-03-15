@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
 import {
-  DollarSign,
   Users,
   Headset,
   ArrowUpRight,
@@ -10,6 +9,7 @@ import {
   Shield,
   Clock,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { useGetOverviewQuery } from "@/features/overview/overviewApiSlice";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -54,12 +54,7 @@ const SuperAdminOverviewPage = () => {
 
   // Format currency
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount || 0);
+    return `BD Tk ${Number(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
   };
 
   const kpis = useMemo(() => {
@@ -77,7 +72,7 @@ const SuperAdminOverviewPage = () => {
         value: formatCurrency(kpiData.totalEarnings),
         trend: getTrendStr(kpiData.totalEarningsDelta),
         trendDir: getTrendDir(kpiData.totalEarningsDelta || 0),
-        icon: DollarSign,
+        icon: BdtIcon,
         bg: "bg-violet-50 dark:bg-violet-900/20",
         color: "text-violet-600 dark:text-violet-400",
         wave: "text-violet-500",

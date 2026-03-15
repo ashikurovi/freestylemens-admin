@@ -23,12 +23,12 @@ const DomainFinderPage = () => {
   const [results, setResults] = useState([]);
 
   const tlds = [
-    { name: ".com", price: "$19.99", sale: "$0.01" },
-    { name: ".online", price: "$35.99", sale: "$0.99" },
-    { name: ".shop", price: "$34.99", sale: "$0.99" },
-    { name: ".pro", price: "$20.99", sale: "$2.99" },
-    { name: ".net", price: "$17.99", sale: "$11.99", gift: true },
-    { name: ".blog", price: "$29.99", sale: "$1.99" },
+    { name: ".com", price: "BD Tk 19.99", sale: "BD Tk 0.01" },
+    { name: ".online", price: "BD Tk 35.99", sale: "BD Tk 0.99" },
+    { name: ".shop", price: "BD Tk 34.99", sale: "BD Tk 0.99" },
+    { name: ".pro", price: "BD Tk 20.99", sale: "BD Tk 2.99" },
+    { name: ".net", price: "BD Tk 17.99", sale: "BD Tk 11.99", gift: true },
+    { name: ".blog", price: "BD Tk 29.99", sale: "BD Tk 1.99" },
   ];
 
   const handleSearch = () => {

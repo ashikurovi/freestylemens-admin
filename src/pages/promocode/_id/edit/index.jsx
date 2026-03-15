@@ -11,7 +11,6 @@ import {
   Save,
   Percent,
   Hash,
-  DollarSign,
   FileText,
   CheckCircle2,
   XCircle,
@@ -19,7 +18,10 @@ import {
   Info,
   Clock,
   Tag,
+  Package,
+  Layout,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import TextField from "@/components/input/TextField";
 import Dropdown from "@/components/dropdown/dropdown";
 import {
@@ -51,10 +53,26 @@ export default function PromocodeEditPage() {
     [allProducts],
   );
 
+  const normalizeProductIdsForDisplay = (ids) => {
+    if (!Array.isArray(ids)) return [];
+    return ids.map((id) => (typeof id === "string" ? parseInt(id, 10) : id));
+  };
+  const linkedProductIds = useMemo(
+    () => normalizeProductIdsForDisplay(promocode?.productIds ?? []),
+    [promocode?.productIds],
+  );
+  const unresolvedLinkedIds = useMemo(
+    () =>
+      linkedProductIds.filter(
+        (id) => !allProducts.some((p) => String(p.id) === String(id)),
+      ),
+    [linkedProductIds, allProducts],
+  );
+
   const discountTypeOptions = useMemo(
     () => [
       { label: t("promocodes.percentage"), value: "percentage", icon: Percent },
-      { label: t("promocodes.fixed"), value: "fixed", icon: DollarSign },
+      { label: t("promocodes.fixed"), value: "fixed", icon: BdtIcon },
     ],
     [t],
   );
@@ -144,7 +162,7 @@ export default function PromocodeEditPage() {
 
   const [discountType, setDiscountType] = useState(defaultType);
   const [selectedProducts, setSelectedProducts] = useState(
-    Array.isArray(promocode?.productIds) ? promocode.productIds : [],
+    normalizeProductIdsForDisplay(promocode?.productIds ?? []),
   );
 
   const {
@@ -214,20 +232,24 @@ export default function PromocodeEditPage() {
       const val = String(promocode.discountType).toLowerCase();
       const found = discountTypeOptions.find((o) => o.value === val);
       setDiscountType(found || null);
-      setSelectedProducts(
-        Array.isArray(promocode.productIds) ? promocode.productIds : [],
-      );
+      setSelectedProducts(normalizeProductIdsForDisplay(promocode.productIds ?? []));
     }
   }, [promocode, reset, discountTypeOptions]);
 
   const [updatePromocode, { isLoading: isUpdating }] =
     useUpdatePromocodeMutation();
 
+  const isProductSelected = (productId) =>
+    selectedProducts.some(
+      (id) => String(id) === String(productId),
+    );
+
   const handleProductToggle = (productId) => {
+    const id = typeof productId === "number" ? productId : parseInt(productId, 10);
     setSelectedProducts((prev) => {
-      const newSelection = prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId];
+      const newSelection = prev.includes(id)
+        ? prev.filter((sid) => sid !== id)
+        : [...prev, id];
       setValue("productIds", newSelection);
       return newSelection;
     });
@@ -258,8 +280,7 @@ export default function PromocodeEditPage() {
       return;
     }
 
-    const payload = {
-      id: promocode.id,
+    const body = {
       code: data.code,
       description: data.description ?? undefined,
       discountType: discountType?.value,
@@ -279,7 +300,10 @@ export default function PromocodeEditPage() {
       productIds: selectedProducts,
     };
 
-    const res = await updatePromocode(payload);
+    const res = await updatePromocode({
+      id: promocode.id,
+      body,
+    });
     if (res?.data) {
       toast.success(t("promocodes.promocodeUpdated"));
       navigate("/promocodes");
@@ -489,7 +513,7 @@ export default function PromocodeEditPage() {
                   {discountType?.value === "percentage" ? (
                     <Percent className="h-5 w-5 text-gray-400" />
                   ) : (
-                    <DollarSign className="h-5 w-5 text-gray-400" />
+                    <BdtIcon className="h-5 w-5 text-gray-400" />
                   )}
                 </div>
                 <TextField
@@ -506,7 +530,7 @@ export default function PromocodeEditPage() {
               <div className="md:col-span-2 pt-4 border-t border-gray-100 dark:border-gray-800">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600">
-                    <DollarSign className="w-4 h-4" />
+                    <BdtIcon className="w-4 h-4" />
                   </div>
                   <h4 className="font-semibold text-sm">
                     {t("promocodes.usageLimits")}
@@ -533,6 +557,131 @@ export default function PromocodeEditPage() {
                   />
                 </div>
               </div>
+            </div>
+          </motion.div>
+
+          {/* Applicable Products */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-6 border border-gray-100 dark:border-gray-800 shadow-xl shadow-gray-100/50 dark:shadow-black/20"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400">
+                <Layout className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {t("promocodes.applicableProducts") || "Applicable Products"}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {selectedProducts.length === 0
+                    ? t("promocodes.appliesToAllProducts") || "Applies to all products when none selected"
+                    : t("promocodes.productsSelectedCount", { count: selectedProducts.length }) || `${selectedProducts.length} product(s) selected`}
+                </p>
+              </div>
+            </div>
+
+            {unresolvedLinkedIds.length > 0 && (
+              <p className="text-xs text-amber-600 dark:text-amber-400 mb-3 flex items-center gap-1">
+                <Info className="w-3.5 h-3.5" />
+                {t("promocodes.linkedProductIdsNotInCatalog") || "Also linked to product ID(s) not in current catalog"}: {unresolvedLinkedIds.join(", ")}
+              </p>
+            )}
+            <div className="flex items-center justify-between bg-gray-50 dark:bg-black/20 p-3 rounded-xl border border-gray-100 dark:border-gray-800 mb-4">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {selectedProducts.length} {t("promocodes.productsSelected") || "products selected"}
+              </span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleSelectAllProducts}
+                className="text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 font-medium"
+                disabled={availableProducts.length === 0}
+              >
+                {selectedProducts.length === availableProducts.length &&
+                availableProducts.length > 0
+                  ? t("promocodes.deselectAll") || "Deselect all"
+                  : t("promocodes.selectAll") || "Select all"}
+              </Button>
+            </div>
+
+            <div className="min-h-[120px]">
+              {availableProducts.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-8 bg-gray-50 dark:bg-black/20 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800">
+                  <div className="h-12 w-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
+                    <Package className="h-6 w-6 text-gray-400" />
+                  </div>
+                  <p className="text-gray-900 dark:text-white font-medium text-sm">
+                    {t("promocodes.noAvailableProducts") || "No available products"}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1 max-w-xs text-center">
+                    {t("promocodes.noAvailableProductsHint") ||
+                      "Make sure you have active, published products to attach this promocode to."}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {availableProducts.map((product) => {
+                    const isSelected = isProductSelected(product.id);
+                    const productImage =
+                      product.image || product.images?.[0] || product.thumbnail;
+
+                    return (
+                      <div
+                        key={product.id}
+                        onClick={() => handleProductToggle(product.id)}
+                        className={`group relative flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-300 border ${
+                          isSelected
+                            ? "bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-500 shadow-md shadow-indigo-500/10"
+                            : "bg-white dark:bg-[#1a1f26] border-gray-100 dark:border-gray-800 hover:border-indigo-200 dark:hover:border-indigo-900/50 hover:shadow-md hover:shadow-indigo-500/5"
+                        }`}
+                      >
+                        <div
+                          className={`absolute top-2 right-2 h-5 w-5 rounded-full flex items-center justify-center transition-all duration-300 ${
+                            isSelected
+                              ? "bg-indigo-600 text-white scale-100 opacity-100 shadow-md shadow-indigo-500/30"
+                              : "bg-gray-100 dark:bg-gray-800 text-gray-300 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100"
+                          }`}
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                        </div>
+
+                        <div className="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-800 flex-shrink-0 overflow-hidden border border-gray-200 dark:border-gray-700">
+                          {productImage ? (
+                            <img
+                              src={productImage}
+                              alt={product.name}
+                              className="h-full w-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                            />
+                          ) : (
+                            <div className="h-full w-full flex items-center justify-center">
+                              <Package className="h-4 w-4 text-gray-400" />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex-1 min-w-0 pr-6">
+                          <h4
+                            className={`font-semibold text-xs truncate transition-colors ${
+                              isSelected
+                                ? "text-indigo-900 dark:text-indigo-300"
+                                : "text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400"
+                            }`}
+                          >
+                            {product.name || product.title}
+                          </h4>
+                          <p className="text-[11px] text-gray-500 mt-0.5">
+                            {t("products.sku") || "SKU"}: {product.sku || "-"}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

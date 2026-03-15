@@ -43,7 +43,7 @@ export const generateSaleInvoicePDF = (invoice, companyInfo = {}) => {
   const formatCurrency = (amount, curr = "BDT") => {
     const num = parseFloat(amount || 0);
     const formatted = num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    if (curr === "USD") return `$${formatted}`;
+    if (curr === "USD") return `BD Tk ${formatted}`;
     if (curr === "BDT") return `৳${formatted}`;
     return `${formatted} ${curr}`;
   };

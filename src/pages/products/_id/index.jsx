@@ -7,7 +7,6 @@ import {
   ArrowLeft, 
   Pencil, 
   Package, 
-  DollarSign, 
   ShoppingCart, 
   Tag, 
   Layers, 
@@ -16,6 +15,7 @@ import {
   Box,
   BarChart3
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { useGetProductQuery } from "@/features/product/productApiSlice";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,14 +28,14 @@ const ProductViewPage = () => {
   const { user } = useSelector((state) => state.auth);
   const { data: product, isLoading } = useGetProductQuery(parseInt(id));
 
-  const renderPrice = (amount) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount || 0);
+  const renderPrice = (amount) => `BD Tk ${Number(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#f8f9fa] dark:bg-[#0b0f14]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-500 dark:text-gray-400 font-medium animate-pulse">{t("products.loadingProductDetails")}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 font-medium animate-pulse">{t("products.loadingProductDetails")}</p>
         </div>
       </div>
     );
@@ -46,8 +46,8 @@ const ProductViewPage = () => {
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#f8f9fa] dark:bg-[#0b0f14] p-6">
         <div className="text-center max-w-md">
           <Box className="w-24 h-24 text-gray-300 dark:text-gray-700 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t("products.productNotFound")}</h1>
-          <p className="text-gray-500 dark:text-gray-400 mb-8">{t("products.productNotFoundDesc")}</p>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{t("products.productNotFound")}</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-8">{t("products.productNotFoundDesc")}</p>
           <Button onClick={() => navigate("/products")} className="rounded-xl px-8 h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-bold">
             <ArrowLeft className="mr-2 h-5 w-5" />
             {t("productForm.backToProducts")}
@@ -86,7 +86,7 @@ const ProductViewPage = () => {
       label: t("productForm.totalRevenue"),
       value: renderPrice(product.totalIncome),
       subValue: t("productForm.grossIncome"),
-      icon: DollarSign,
+      icon: BdtIcon,
       color: "text-violet-600",
       bg: "bg-violet-50 dark:bg-violet-900/20",
     },
@@ -110,10 +110,10 @@ const ProductViewPage = () => {
             <ArrowLeft className="mr-2 h-4 w-4" />
             {t("productForm.backToInventory")}
           </Button>
-          <h1 className="text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400">{t("productForm.productDetails")}</span>
           </h1>
-          <div className="flex items-center gap-3 text-sm font-medium text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-3 text-xs font-medium text-gray-500 dark:text-gray-400">
              <span className="flex items-center gap-1">
                 <Tag className="w-4 h-4" /> {product.category?.name || t("productForm.uncategorized")}
              </span>
@@ -141,18 +141,18 @@ const ProductViewPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-6 border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden"
+            className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-5 border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden"
           >
-             <div className="flex justify-between items-start mb-4">
-                <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
-                   <stat.icon className="w-6 h-6" />
+             <div className="flex justify-between items-start mb-3">
+                <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color}`}>
+                   <stat.icon className="w-5 h-5" />
                 </div>
                 {/* Decorative background icon */}
                 <stat.icon className={`absolute -bottom-4 -right-4 w-24 h-24 opacity-5 ${stat.color}`} />
              </div>
              <div>
-                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</h3>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.subValue}</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</h3>
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{stat.subValue}</p>
              </div>
           </motion.div>
         ))}
@@ -212,10 +212,10 @@ const ProductViewPage = () => {
             className="lg:col-span-7 space-y-8"
          >
             {/* Main Info Card */}
-            <div className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-8 border border-gray-100 dark:border-gray-800 shadow-sm">
-               <div className="flex justify-between items-start mb-6">
+            <div className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
+               <div className="flex justify-between items-start mb-4">
                   <div>
-                     <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{product.name}</h2>
+                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{product.name}</h2>
                      <div className="flex items-center gap-3">
                         <Badge variant="secondary" className={`
                            ${product.isActive ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" : "bg-gray-100 text-gray-700"}
@@ -229,25 +229,25 @@ const ProductViewPage = () => {
                      </div>
                   </div>
                   <div className="text-right">
-                     <p className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+                     <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
                         {renderPrice(product.discountPrice || product.price)}
                      </p>
                      {product.discountPrice && (
-                        <p className="text-gray-400 line-through font-medium text-lg">
+                        <p className="text-gray-400 line-through font-medium text-sm">
                            {renderPrice(product.price)}
                         </p>
                      )}
                   </div>
                </div>
 
-               <Separator className="my-6 bg-gray-100 dark:bg-gray-800" />
+               <Separator className="my-4 bg-gray-100 dark:bg-gray-800" />
 
-               <div className="space-y-4">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                     <Layers className="w-5 h-5 text-indigo-500" />
+               <div className="space-y-3">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                     <Layers className="w-4 h-4 text-indigo-500" />
                      {t("productForm.description")}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                      {product.description || t("productForm.noDescriptionAvailable")}
                   </p>
                </div>
@@ -256,23 +256,23 @@ const ProductViewPage = () => {
             {/* Inventory & Details Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                {/* Inventory Card */}
-               <div className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                     <Box className="w-5 h-5 text-indigo-500" />
+               <div className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-5 border border-gray-100 dark:border-gray-800 shadow-sm">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                     <Box className="w-4 h-4 text-indigo-500" />
                      {t("productForm.inventoryDetails")}
                   </h3>
-                  <div className="space-y-4">
-                     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-black/20 rounded-xl">
+                  <div className="space-y-3">
+                     <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-black/20 rounded-xl text-sm">
                         <span className="text-gray-500 font-medium">{t("productForm.stockStatus")}</span>
                         <span className={`font-bold ${isOutOfStock ? "text-red-600" : isLowStock ? "text-orange-600" : "text-emerald-600"}`}>
                            {isOutOfStock ? t("products.outOfStock") : isLowStock ? t("products.lowStock") : t("products.inStock")}
                         </span>
                      </div>
-                     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-black/20 rounded-xl">
+                     <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-black/20 rounded-xl text-sm">
                         <span className="text-gray-500 font-medium">{t("productForm.quantity")}</span>
                         <span className="font-bold text-gray-900 dark:text-white">{product.stock || 0} {t("productForm.units")}</span>
                      </div>
-                     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-black/20 rounded-xl">
+                     <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-black/20 rounded-xl text-sm">
                         <span className="text-gray-500 font-medium">{t("productForm.lowStockLimit")}</span>
                         <span className="font-bold text-gray-900 dark:text-white">5 {t("productForm.units")}</span>
                      </div>
@@ -280,21 +280,21 @@ const ProductViewPage = () => {
                </div>
 
                {/* Pricing Card */}
-               <div className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-6 border border-gray-100 dark:border-gray-800 shadow-sm">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                     <Tag className="w-5 h-5 text-indigo-500" />
+               <div className="bg-white dark:bg-[#1a1f26] rounded-[24px] p-5 border border-gray-100 dark:border-gray-800 shadow-sm">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                     <Tag className="w-4 h-4 text-indigo-500" />
                      {t("productForm.pricingInfo")}
                   </h3>
-                  <div className="space-y-4">
-                     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-black/20 rounded-xl">
+                  <div className="space-y-3">
+                     <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-black/20 rounded-xl text-sm">
                         <span className="text-gray-500 font-medium">{t("productForm.regularPrice")}</span>
                         <span className="font-bold text-gray-900 dark:text-white">{renderPrice(product.price)}</span>
                      </div>
-                     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-black/20 rounded-xl">
+                     <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-black/20 rounded-xl text-sm">
                         <span className="text-gray-500 font-medium">{t("productForm.discountPrice")}</span>
                         <span className="font-bold text-gray-900 dark:text-white">{product.discountPrice ? renderPrice(product.discountPrice) : "—"}</span>
                      </div>
-                     <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-black/20 rounded-xl">
+                     <div className="flex justify-between items-center p-2.5 bg-gray-50 dark:bg-black/20 rounded-xl text-sm">
                         <span className="text-gray-500 font-medium">{t("productForm.profitMargin")}</span>
                         <span className="font-bold text-emerald-600">
                            {product.costPrice ? `${Math.round(((product.price - product.costPrice) / product.price) * 100)}%` : "—"}

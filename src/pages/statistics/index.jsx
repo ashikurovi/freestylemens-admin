@@ -128,16 +128,16 @@ export default function StatisticsPage() {
   return (
     <div className="p-4 md:p-8 dark:bg-[#0b0f14] min-h-screen font-sans text-[#1A1A1A] dark:text-white">
       {/* --- MIDDLE ROW: Charts & Map --- */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
+      <div className="mb-8">
         {/* Statistics Chart Component */}
         <StatisticsChart chartData={chartData} />
 
-        {/* Live Statistics Map Component */}
+        {/* Live Statistics Map Component
         <LiveStatisticsMap
           countryStats={countryStats}
           totalLiveUsers={totalLiveUsers}
           connections={connections}
-        />
+        /> */}
       </div>
 
       {/* --- BOTTOM ROW: Top Customers --- */}

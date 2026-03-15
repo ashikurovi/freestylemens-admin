@@ -6,7 +6,7 @@ import {
   useGetAreasQuery,
 } from "@/features/redx/redxApiSlice";
 import toast from "react-hot-toast";
-import { Calculator, DollarSign, ChevronDown, Weight, Banknote } from "lucide-react";
+import { Calculator, ChevronDown, Weight, Banknote } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 

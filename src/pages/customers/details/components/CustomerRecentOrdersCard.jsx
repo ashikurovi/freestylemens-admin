@@ -7,7 +7,7 @@ const formatOrderAmount = (order) => {
     typeof order.totalAmount === "number"
       ? order.totalAmount
       : Number(order.totalAmount || 0);
-  if (!amount || Number.isNaN(amount)) return "$0.00";
+  if (!amount || Number.isNaN(amount)) return "BD Tk 0.00";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",

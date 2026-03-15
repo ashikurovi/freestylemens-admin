@@ -147,7 +147,7 @@ export default function BannersOffersPage() {
                     <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-white/10 border border-white dark:border-gray-700 shadow-lg" />
                  </div>
                  <div className="space-y-1">
-                    <span className="text-4xl font-black text-[#0b121e] dark:text-white">$476,3k</span>
+                    <span className="text-4xl font-black text-[#0b121e] dark:text-white">BD Tk 476,3k</span>
                     <p className="text-[11px] font-black uppercase text-gray-400 tracking-widest">Total Balance</p>
                  </div>
               </div>
@@ -188,7 +188,7 @@ export default function BannersOffersPage() {
 
         {/* Row 2, Col 1-2: Phone Promo */}
         <div className="md:col-span-2 lg:col-span-2">
-           <ProductBanner name="New Phone15 Pro" priceRange="Get $200–$600 in credit toward">
+           <ProductBanner name="New Phone15 Pro" priceRange="Get BD Tk 200–BD Tk 600 in credit toward">
               <div className="relative w-full h-full">
                  <Smartphone className="w-32 h-32 text-gray-400/20 rotate-[-15deg] absolute left-1/2 -translate-x-full top-0" />
                  <Smartphone className="w-40 h-40 text-blue-500/40 rotate-[10deg] absolute left-1/2 -translate-x-1/4 top-0 z-10" />

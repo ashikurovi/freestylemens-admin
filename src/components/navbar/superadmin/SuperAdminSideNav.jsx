@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  DollarSign,
   Users,
   Headset,
   LayoutDashboard,
@@ -13,6 +12,7 @@ import {
   UserCircle,
   X,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import LanguageSwitcher from "@/components/language/LanguageSwitcher";
 
 const SuperAdminSideNav = ({ onLinkClick }) => {
@@ -27,7 +27,7 @@ const SuperAdminSideNav = ({ onLinkClick }) => {
     {
       labelKey: "superadmin.earnings",
       to: "/superadmin/earnings",
-      Icon: DollarSign,
+      Icon: BdtIcon,
     },
     {
       labelKey: "superadmin.ourCustomers",

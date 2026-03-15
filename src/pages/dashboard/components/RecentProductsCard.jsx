@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Package, ArrowUpDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import SkeletonLoader from "./SkeletonLoader";
 
 export default function RecentProductsCard({
@@ -28,7 +29,9 @@ export default function RecentProductsCard({
     <Card className="border-none shadow-sm h-full flex flex-col">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Package className="w-5 h-5" />
+          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400">
+            <BdtIcon className="w-5 h-5" />
+          </span>
           {t("dashboard.recentProducts")}
         </CardTitle>
       </CardHeader>
@@ -73,7 +76,11 @@ export default function RecentProductsCard({
                           <span className="text-[10px] text-gray-400 uppercase">{product.category}</span>
                         </div>
                       </TableCell>
-                      <TableCell>{product.price}</TableCell>
+                      <TableCell>
+                        {typeof product.price === "number" || (typeof product.price === "string" && !Number.isNaN(Number(product.price)))
+                          ? Number(product.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                          : product.price ?? "—"}
+                      </TableCell>
                       <TableCell className="text-right">
                         <span
                           className={`px-2 py-1 rounded text-xs font-bold ${

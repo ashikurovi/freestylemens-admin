@@ -28,9 +28,9 @@ import {
   AlertCircle,
   Store,
   Scale,
-  DollarSign,
   ChevronDown,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "react-router-dom";
 
@@ -566,7 +566,7 @@ const CreateOrder = () => {
               }}
               placeholder="1000"
               error={errors.value}
-              icon={<DollarSign className="w-4 h-4" />}
+              icon={<BdtIcon className="w-4 h-4" />}
             />
 
             <div className="pt-4 border-t border-gray-100 dark:border-gray-800">

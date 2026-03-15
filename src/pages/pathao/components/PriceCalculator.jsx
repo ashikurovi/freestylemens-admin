@@ -8,7 +8,8 @@ import {
 } from "@/features/pathao/pathaoApiSlice";
 import toast from "react-hot-toast";
 import TextField from "@/components/input/TextField";
-import { Calculator, DollarSign, Loader2, MapPin, Scale, Package, Truck, Info } from "lucide-react";
+import { Calculator, Loader2, MapPin, Scale, Package, Truck, Info } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { cn } from "@/lib/utils";
 
 const PriceCalculator = () => {
@@ -270,7 +271,7 @@ const PriceCalculator = () => {
           {priceData ? (
             <div className={`${cardClass} sticky top-6`}>
               <h4 className={titleClass}>
-                <DollarSign className="w-5 h-5 text-green-500" />
+                <BdtIcon className="w-5 h-5 text-green-500" />
                 {t("pathao.estimatedDeliveryCharge")}
               </h4>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">

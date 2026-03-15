@@ -8,7 +8,6 @@ import {
   Trash2,
   Ticket,
   Percent,
-  DollarSign,
   CalendarClock,
   CheckCircle2,
   XCircle,
@@ -16,6 +15,7 @@ import {
   Pencil,
   Copy,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import {
   useGetPromocodesQuery,
   useDeletePromocodeMutation,
@@ -156,12 +156,12 @@ const PromocodePage = () => {
                 {isPercentage ? (
                   <Percent className="h-3 w-3" />
                 ) : (
-                  <DollarSign className="h-3 w-3" />
+                  <BdtIcon className="h-3 w-3" />
                 )}
                 {valueLabel}
               </span>
               <span className="text-xs text-gray-500 dark:text-gray-400">
-                {t("promocodes.minOrderLabel")} $
+                {t("promocodes.minOrderLabel")} BD Tk{" "}
                 {Number(p?.minOrderAmount || 0).toFixed(2)}
               </span>
             </div>

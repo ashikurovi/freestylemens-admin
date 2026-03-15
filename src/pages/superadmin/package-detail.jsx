@@ -17,11 +17,11 @@ import {
   Calendar,
   Layers,
   CheckCircle2,
-  DollarSign,
   Star,
   XCircle,
   Info,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 
 // Animation variants
 const containerVariants = {
@@ -272,7 +272,7 @@ const PackageDetailPage = () => {
           {/* Pricing Card */}
           <div className="bg-white dark:bg-slate-950 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
             <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-blue-500" />
+              <BdtIcon className="w-5 h-5 text-blue-500" />
               Pricing Details
             </h2>
             <div className="space-y-6">

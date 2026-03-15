@@ -19,10 +19,10 @@ import {
   Mail,
   Phone,
   Box,
-  CircleDollarSign,
   Receipt,
   Download,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { useGetOrderQuery, useProcessOrderMutation } from "@/features/order/orderApiSlice";
 import { useSelector } from "react-redux";
 import {
@@ -541,7 +541,7 @@ const OrderViewPage = () => {
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                   order.isPaid ? "bg-emerald-100 text-emerald-600" : "bg-amber-100 text-amber-600"
                 }`}>
-                  {order.isPaid ? <CheckCircle2 className="w-5 h-5" /> : <CircleDollarSign className="w-5 h-5" />}
+                  {order.isPaid ? <CheckCircle2 className="w-5 h-5" /> : <BdtIcon className="w-5 h-5" />}
                 </div>
               </div>
 

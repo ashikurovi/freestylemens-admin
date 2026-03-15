@@ -17,9 +17,9 @@ import {
   CheckCircle2,
   XCircle,
   Loader2,
-  DollarSign,
   Package,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import TextField from "@/components/input/TextField";
 import Checkbox from "@/components/input/Checkbox";
 import Dropdown from "@/components/dropdown/dropdown";
@@ -294,7 +294,7 @@ function CreatePromocodePage() {
                   step="0.01"
                   error={errors.discountValue}
                   className="bg-gray-50 dark:bg-black/20"
-                  icon={discountType?.value === 'percentage' ? <Percent className="w-4 h-4 text-gray-400" /> : <DollarSign className="w-4 h-4 text-gray-400" />}
+                  icon={discountType?.value === 'percentage' ? <Percent className="w-4 h-4 text-gray-400" /> : <BdtIcon className="w-4 h-4 text-gray-400" />}
                 />
               </div>
 
@@ -308,7 +308,7 @@ function CreatePromocodePage() {
                   step="0.01"
                   error={errors.minOrderAmount}
                   className="bg-gray-50 dark:bg-black/20"
-                  icon={<DollarSign className="w-4 h-4 text-gray-400" />}
+                  icon={<BdtIcon className="w-4 h-4 text-gray-400" />}
                 />
                 <TextField
                   label="Max Uses"

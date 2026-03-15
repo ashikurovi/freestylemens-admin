@@ -45,13 +45,13 @@ export default function SalesDistributionCard({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onFilterChange("Weekly")}>
+            <DropdownMenuItem onSelect={() => onFilterChange("Weekly")}>
               {t("dashboard.filterWeekly")}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onFilterChange("Monthly")}>
+            <DropdownMenuItem onSelect={() => onFilterChange("Monthly")}>
               {t("dashboard.filterMonthly")}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onFilterChange("Yearly")}>
+            <DropdownMenuItem onSelect={() => onFilterChange("Yearly")}>
               {t("dashboard.filterYearly")}
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -75,7 +75,7 @@ export default function SalesDistributionCard({
                   </span>
                 </div>
                 <p className="text-lg font-bold tracking-tight">
-                  ${item.value}
+                  BD Tk {item.value}
                 </p>
               </div>
             ))}

@@ -8,10 +8,10 @@ import {
   Truck, 
   CheckCircle, 
   XCircle, 
-  DollarSign,
   PackageX,
   RefreshCw
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import OrderStatCard from "./OrderStatCard";
 
 const OrdersStats = ({ stats }) => {
@@ -61,7 +61,7 @@ const OrdersStats = ({ stats }) => {
     {
       title: t("orders.statsRevenue") || "Total Revenue",
       value: `৳${Number(stats?.totalRevenue || 0).toLocaleString()}`,
-      icon: DollarSign,
+      icon: BdtIcon,
       color: "text-emerald-600",
       bg: "bg-emerald-50 dark:bg-emerald-900/20",
       wave: "text-emerald-500",

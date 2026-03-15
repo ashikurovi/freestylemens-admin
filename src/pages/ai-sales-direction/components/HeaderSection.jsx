@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 
 // Premium Header Section
 const HeaderSection = ({ t }) => {
@@ -21,9 +20,7 @@ const HeaderSection = ({ t }) => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        >
-          <Sparkles className="w-12 h-12 text-[#887CFD] fill-[#887CFD]/30" />
-        </motion.div>
+        />
 
         {/* Orbiting dots */}
         {[...Array(3)].map((_, i) => (

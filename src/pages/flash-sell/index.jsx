@@ -194,7 +194,7 @@ const FlashSellPage = () => {
         }
 
         const productImage =
-          product.image || product.images?.[0] || product.thumbnail;
+          product.thumbnail 
 
         return {
           name: (
@@ -581,10 +581,7 @@ const FlashSellPage = () => {
                         const isSelected = selectedProducts.includes(
                           product.id,
                         );
-                        const productImage =
-                          product.image ||
-                          product.images?.[0] ||
-                          product.thumbnail;
+                        const productImage = product.thumbnail;
 
                         return (
                           <div

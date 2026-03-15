@@ -75,8 +75,8 @@ export const generateOrderInvoice = (order) => {
         productName,
         sku,
         quantity.toString(),
-        `$${unitPrice.toFixed(2)}`,
-        `$${totalPrice.toFixed(2)}`,
+        `BD Tk ${unitPrice.toFixed(2)}`,
+        `BD Tk ${totalPrice.toFixed(2)}`,
       ];
     });
 
@@ -126,16 +126,16 @@ export const generateOrderInvoice = (order) => {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.text("Subtotal:", 120, summaryStartY + 8);
-  doc.text(`$${totalAmount.toFixed(2)}`, 180, summaryStartY + 8, { align: "right" });
+  doc.text(`BD Tk ${totalAmount.toFixed(2)}`, 180, summaryStartY + 8, { align: "right" });
 
   // Add tax if needed (can be extended)
   // doc.text("Tax (0%):", 120, summaryStartY + 15);
-  // doc.text("$0.00", 180, summaryStartY + 15, { align: "right" });
+  // doc.text("BD Tk 0.00", 180, summaryStartY + 15, { align: "right" });
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(12);
   doc.text("Total:", 120, summaryStartY + 22);
-  doc.text(`$${totalAmount.toFixed(2)}`, 180, summaryStartY + 22, { align: "right" });
+  doc.text(`BD Tk ${totalAmount.toFixed(2)}`, 180, summaryStartY + 22, { align: "right" });
 
   // Payment Information
   const paymentInfoY = summaryStartY + 35;

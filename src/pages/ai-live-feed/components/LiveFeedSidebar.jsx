@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Zap, User } from "lucide-react";
 
 // -----------------------------------------------------------------------------
 // LiveFeedSidebar section: feed stats (activity count, users) and note
@@ -11,19 +10,12 @@ import { Zap, User } from "lucide-react";
  * Single stat row: icon, label, value.
  * Used for activity count, users, and other feed metrics.
  */
-const StatRow = ({ icon: Icon, iconColorClass, labelKey, value }) => {
+const StatRow = ({ labelKey, value }) => {
   const { t } = useTranslation();
   return (
     <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50">
-      <div className="flex items-center gap-3">
-        <div
-          className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconColorClass}`}
-        >
-          <Icon className="w-4 h-4" />
-        </div>
-        <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-          {t(labelKey)}
-        </span>
+      <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+        {t(labelKey)}
       </div>
       <span className="text-lg font-bold text-gray-900 dark:text-white">
         {value}
@@ -37,12 +29,7 @@ const StatRow = ({ icon: Icon, iconColorClass, labelKey, value }) => {
  * Displays the total number of messages in the current feed.
  */
 const ActivityStat = ({ count }) => (
-  <StatRow
-    icon={Zap}
-    iconColorClass="bg-[#887CFD]/10 text-[#887CFD]"
-    labelKey="aiLiveFeed.activity"
-    value={count}
-  />
+  <StatRow labelKey="aiLiveFeed.activity" value={count} />
 );
 
 /**
@@ -50,12 +37,7 @@ const ActivityStat = ({ count }) => (
  * Can show a translated label like "Active" or a count.
  */
 const UsersStat = ({ value }) => (
-  <StatRow
-    icon={User}
-    iconColorClass="bg-[#16C8C7]/10 text-[#16C8C7]"
-    labelKey="aiLiveFeed.users"
-    value={value}
-  />
+  <StatRow labelKey="aiLiveFeed.users" value={value} />
 );
 
 /**

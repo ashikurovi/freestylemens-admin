@@ -835,7 +835,7 @@ const OptimizedUpgradePlan = () => {
                 <div className="flex items-baseline gap-2">
                   <span className="text-5xl font-black text-gray-900 dark:text-white">
                     {currentPlan?.price != null && currentPlan.price !== "—"
-                      ? `$${formatPrice(currentPlan.price)}`
+                      ? `BD Tk ${formatPrice(currentPlan.price)}`
                       : "—"}
                   </span>
                   <span className="text-gray-600 dark:text-gray-400 text-sm font-medium">
@@ -852,7 +852,7 @@ const OptimizedUpgradePlan = () => {
                       currentUser.package.discountPrice != null) ? (
                       <>
                         <span className="line-through opacity-60">
-                          $
+                          BD Tk{" "}
                           {formatPrice(
                             currentPlan.rawPrice || currentUser?.package?.price,
                           )}
@@ -1083,7 +1083,7 @@ const OptimizedUpgradePlan = () => {
                       <span
                         className={`text-4xl font-black ${isActive ? "text-white" : "text-gray-900 dark:text-white"}`}
                       >
-                        ${formatPrice(plan.price)}
+                        BD Tk {formatPrice(plan.price)}
                       </span>
                       <span
                         className={`text-sm ${isActive ? "text-purple-100" : "text-gray-500 dark:text-gray-400"}`}
@@ -1099,7 +1099,7 @@ const OptimizedUpgradePlan = () => {
                           className={`text-sm flex items-center gap-2 mt-1 ${isActive ? "text-purple-100" : "text-gray-500 dark:text-gray-400"}`}
                         >
                           <span className="line-through opacity-70">
-                            ${formatPrice(plan.rawPrice)}
+                            BD Tk {formatPrice(plan.rawPrice)}
                           </span>
                           <span className="inline-flex items-center gap-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-1.5 py-0.5 rounded text-xs font-bold">
                             Save{" "}

@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Filter, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // -----------------------------------------------------------------------------
@@ -73,9 +72,6 @@ const TitleBlock = () => {
   const { t } = useTranslation();
   return (
     <div className="flex items-start gap-4">
-      <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 grid place-items-center">
-        <Activity className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-      </div>
       <div>
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
@@ -101,7 +97,6 @@ const FilterButton = () => {
       variant="outline"
       className="gap-2 h-11 px-6 rounded-xl border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover:border-[#887CFD] hover:text-[#887CFD] transition-all bg-white dark:bg-[#1a1f26] shadow-sm"
     >
-      <Filter className="w-4 h-4" />
       {t("aiLiveFeed.filters")}
     </Button>
   );

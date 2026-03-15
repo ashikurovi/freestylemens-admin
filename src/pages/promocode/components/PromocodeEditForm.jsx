@@ -203,8 +203,7 @@ export default function PromocodeEditForm({ promocode }) {
       return;
     }
 
-    const payload = {
-      id: promocode.id,
+    const body = {
       code: data.code,
       description: data.description ?? undefined,
       discountType: discountType?.value,
@@ -215,16 +214,13 @@ export default function PromocodeEditForm({ promocode }) {
       startsAt: data.startsAt ? new Date(data.startsAt).toISOString() : undefined,
       expiresAt: data.expiresAt ? new Date(data.expiresAt).toISOString() : undefined,
       isActive: !!data.isActive,
+      productIds: selectedProducts.length > 0 ? selectedProducts : [],
     };
 
-    // Attach selected product IDs if any (allow clearing by sending empty array)
-    if (selectedProducts.length > 0) {
-      payload.productIds = selectedProducts;
-    } else {
-      payload.productIds = [];
-    }
-
-    const res = await updatePromocode(payload);
+    const res = await updatePromocode({
+      id: promocode.id,
+      body,
+    });
     if (res?.data) {
       toast.success(t("promocodes.promocodeUpdated"));
       setIsOpen(false);

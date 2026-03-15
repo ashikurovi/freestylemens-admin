@@ -44,130 +44,14 @@ const InvoicesPage = () => {
   const [deleteSaleInvoice, { isLoading: isDeleting }] =
     useDeleteSaleInvoiceMutation();
 
-  // Fallback mock data for demo when API returns empty
-  const mockInvoices = [
-    {
-      id: "21",
-      createdAt: "2026-02-01",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 10,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "20",
-      createdAt: "2026-01-31",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "pending",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "unfulfilled",
-    },
-    {
-      id: "19",
-      createdAt: "2026-01-31",
-      customer: { name: "Aftab Farhan" },
-      status: "pending",
-      totalAmount: 50,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "unfulfilled",
-    },
-    {
-      id: "18",
-      createdAt: "2026-01-31",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "17",
-      createdAt: "2026-01-31",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "16",
-      createdAt: "2026-01-31",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "15",
-      createdAt: "2026-01-30",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "14",
-      createdAt: "2026-01-30",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "13",
-      createdAt: "2026-01-30",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "12",
-      createdAt: "2026-01-30",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-    {
-      id: "11",
-      createdAt: "2026-01-30",
-      customer: { name: "MST HASINA BEGUM" },
-      status: "paid",
-      totalAmount: 1,
-      deliveryStatus: "N/A",
-      items: 1,
-      fulfillmentStatus: "fulfilled",
-    },
-  ];
 
-  const displayData =
-    apiInvoices?.length > 0
-      ? apiInvoices.map((inv) => ({
+  const displayData = apiInvoices.map((inv) => ({
           ...inv,
           items: Array.isArray(inv.items) ? inv.items.length : inv.items ?? 1,
         }))
-      : mockInvoices;
+   
 
-  const saleInvoicesData =
-    apiInvoices?.length > 0 ? apiInvoices : mockInvoices;
+  const saleInvoicesData = apiInvoices ;
 
   const stats = useMemo(() => {
     const now = new Date();

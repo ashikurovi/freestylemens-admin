@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Sparkles, Volume2, Square } from "lucide-react";
 import GlassCard from "./GlassCard";
 
 const AIInsightsSection = ({
@@ -27,9 +26,6 @@ const AIInsightsSection = ({
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-xl backdrop-blur-md">
-              <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-300" />
-            </div>
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {t("aiReport.aiInsights")}
             </h2>
@@ -91,9 +87,9 @@ const AIInsightsSection = ({
                 {isSpeaking ? (
                   <button
                     onClick={handleStopSpeak}
-                    className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white transition-colors text-sm font-medium flex items-center gap-2"
+                    className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white transition-colors text-sm font-medium"
                   >
-                    <Square className="w-4 h-4" /> {t("aiReport.stopSpeaking")}
+                    {t("aiReport.stopSpeaking")}
                   </button>
                 ) : null}
                 
@@ -101,16 +97,14 @@ const AIInsightsSection = ({
                   <>
                     <button
                       onClick={() => handleSpeak("en")}
-                      className="px-4 py-2 rounded-xl bg-purple-500 hover:bg-purple-600 text-white transition-colors text-sm font-medium flex items-center gap-2"
+                      className="px-4 py-2 rounded-xl bg-purple-500 hover:bg-purple-600 text-white transition-colors text-sm font-medium"
                     >
-                      <Volume2 className="w-4 h-4" />{" "}
                       {t("aiReport.listenEnglish") || t("aiReport.listen")}
                     </button>
                     <button
                       onClick={() => handleSpeak("bn")}
-                      className="px-4 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white transition-colors text-sm font-medium flex items-center gap-2"
+                      className="px-4 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white transition-colors text-sm font-medium"
                     >
-                      <Volume2 className="w-4 h-4" />{" "}
                       {t("aiReport.listenBengali") || t("aiReport.listen")}
                     </button>
                   </>

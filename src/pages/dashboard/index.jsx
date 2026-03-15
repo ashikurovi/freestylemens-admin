@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Eye, ShoppingBag, Package, DollarSign } from "lucide-react";
+import { Eye, ShoppingBag, Package } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 import { useTranslation } from "react-i18next";
 import { useGetDashboardQuery } from "@/features/dashboard/dashboardApiSlice";
 import {
@@ -68,10 +69,16 @@ const DashboardPage = () => {
   }, [subscriberFilter, dashboardData?.subscriberChart]);
 
   const currentDistributionData = useMemo(() => {
-    return Array.isArray(dashboardData?.salesDistribution)
-      ? dashboardData.salesDistribution
-      : [];
-  }, [dashboardData?.salesDistribution]);
+    const dist = dashboardData?.salesDistribution;
+    if (!dist || typeof dist !== "object") return [];
+    const keyLower = distributionFilter?.toLowerCase();
+    const keyCapitalized =
+      keyLower && keyLower.charAt(0).toUpperCase() + keyLower.slice(1);
+    const byPeriod = dist[keyLower] ?? dist[keyCapitalized] ?? dist[distributionFilter];
+    if (Array.isArray(byPeriod)) return byPeriod;
+    if (Array.isArray(dist)) return dist;
+    return [];
+  }, [distributionFilter, dashboardData?.salesDistribution]);
 
   const integrationList = Array.isArray(dashboardData?.integrations)
     ? dashboardData.integrations
@@ -168,13 +175,13 @@ const DashboardPage = () => {
           title={t("dashboard.totalRevenue")}
           value={
             dashboardData?.overviewMetrics?.totalRevenue != null
-              ? `$${Number(
+              ? `BD Tk ${Number(
                   dashboardData.overviewMetrics.totalRevenue,
                 ).toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}`
-              : "$0.00"
+              : "BD Tk 0.00"
           }
           change={dashboardData?.stats?.[0]?.delta ?? "0%"}
           changeType={
@@ -182,7 +189,7 @@ const DashboardPage = () => {
               ? "increase"
               : "decrease"
           }
-          icon={DollarSign}
+          icon={BdtIcon}
           iconBgColor="bg-rose-100 dark:bg-rose-500/10"
           iconColor="text-rose-600 dark:text-rose-400"
           sparklineData={sparklineData}

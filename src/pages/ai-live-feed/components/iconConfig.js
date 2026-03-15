@@ -9,7 +9,6 @@ import {
   TrendingUp,
   ShoppingCart,
   CreditCard,
-  DollarSign,
   Package,
   UserPlus,
   User,
@@ -24,6 +23,7 @@ import {
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
+import BdtIcon from "@/components/icons/BdtIcon";
 
 const ICON_MAP = {
   slack: Slack,
@@ -35,7 +35,7 @@ const ICON_MAP = {
   order: ShoppingCart,
   purchase: ShoppingCart,
   payment: CreditCard,
-  refund: DollarSign,
+  refund: BdtIcon,
   product: Package,
   customer: UserPlus,
   user_signup: UserPlus,
